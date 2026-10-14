@@ -1,0 +1,17 @@
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\bin\Debug\net10.0\Infrastructure.deps.json
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\bin\Debug\net10.0\Infrastructure.dll
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\bin\Debug\net10.0\Infrastructure.pdb
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\bin\Debug\net10.0\Application.dll
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\bin\Debug\net10.0\Domain.dll
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\bin\Debug\net10.0\Application.pdb
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\bin\Debug\net10.0\Domain.pdb
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastructure.csproj.AssemblyReference.cache
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastructure.AssemblyInfoInputs.cache
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastructure.AssemblyInfo.cs
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastructure.csproj.CoreCompileInputs.cache
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastr.15EFFBFE.Up2Date
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastructure.dll
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\refint\Infrastructure.dll
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastructure.pdb
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\ref\Infrastructure.dll

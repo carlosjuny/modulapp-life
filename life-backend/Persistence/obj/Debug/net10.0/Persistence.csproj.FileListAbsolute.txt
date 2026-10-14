@@ -1,0 +1,17 @@
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\bin\Debug\net10.0\Persistence.deps.json
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\bin\Debug\net10.0\Persistence.dll
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\bin\Debug\net10.0\Persistence.pdb
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\bin\Debug\net10.0\Application.dll
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\bin\Debug\net10.0\Domain.dll
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\bin\Debug\net10.0\Application.pdb
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\bin\Debug\net10.0\Domain.pdb
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persistence.csproj.AssemblyReference.cache
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persistence.GeneratedMSBuildEditorConfig.editorconfig
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persistence.AssemblyInfoInputs.cache
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persistence.AssemblyInfo.cs
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persistence.csproj.CoreCompileInputs.cache
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persiste.61C28332.Up2Date
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persistence.dll
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\refint\Persistence.dll
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persistence.pdb
+D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\ref\Persistence.dll
