@@ -1,0 +1,25 @@
+# Reglas comunes a todo el monorepo.
+# Las reglas de cada stack viven en life-backend/.gitignore y life-frontend/.gitignore.
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- IDEs ----
+.idea/
+.vs/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.user
+*.suo
+
+# ---- Secretos y configuración local (nunca se versionan) ----
+.env
+.env.*
+!.env.example
+secrets.json
+
+# ---- Logs ----
+*.log
