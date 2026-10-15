@@ -6,8 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.Development.local.json", optional: true, reloadOnChange: true);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -38,8 +36,14 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 app.UseExceptionHandler();
+
+if (app.Environment.IsDevelopment() && app.Configuration.GetValue<bool>("Database:SeedOnStartup"))
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await DevelopmentDataSeeder.SeedAsync(db);
+}
 
 if (app.Environment.IsDevelopment())
 {

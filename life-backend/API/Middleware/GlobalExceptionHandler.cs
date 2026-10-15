@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Middleware;
 
-/// <summary>
-/// Convierte cualquier excepción no controlada en una respuesta ProblemDetails uniforme,
-/// sin exponer mensajes ni stack traces internos al cliente.
-/// </summary>
 public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
