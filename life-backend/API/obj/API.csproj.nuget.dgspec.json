@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\API\\API.csproj": {}
+    "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\API\\API.csproj": {}
   },
   "projects": {
-    "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\API\\API.csproj": {
+    "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\API\\API.csproj",
+        "projectUniqueName": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\API\\API.csproj",
-        "packagesPath": "C:\\Users\\CARLOSJUNY\\.nuget\\packages\\",
-        "outputPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\API\\obj\\",
+        "projectPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\API\\API.csproj",
+        "packagesPath": "C:\\Users\\ALIGERALD\\.nuget\\packages\\",
+        "outputPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\CARLOSJUNY\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ALIGERALD\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -34,14 +33,14 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Application\\Application.csproj": {
-                "projectPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Application\\Application.csproj"
+              "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Application\\Application.csproj": {
+                "projectPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Application\\Application.csproj"
               },
-              "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Infrastructure\\Infrastructure.csproj"
+              "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Infrastructure\\Infrastructure.csproj"
               },
-              "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Persistence\\Persistence.csproj": {
-                "projectPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Persistence\\Persistence.csproj"
+              "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Persistence\\Persistence.csproj": {
+                "projectPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Persistence\\Persistence.csproj"
               }
             }
           }
@@ -73,13 +72,13 @@
               "target": "Package",
               "version": "[10.0.12, )"
             },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
-              "target": "Package",
-              "version": "[10.0.12, )"
-            },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
+              "target": "Package",
+              "version": "[10.0.12, )"
+            },
+            "Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore": {
               "target": "Package",
               "version": "[10.0.12, )"
             }
@@ -103,7 +102,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Users\\ALIGERALD\\.dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
@@ -521,20 +520,20 @@
         }
       }
     },
-    "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Application\\Application.csproj": {
+    "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Application\\Application.csproj",
+        "projectUniqueName": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Application\\Application.csproj",
-        "packagesPath": "C:\\Users\\CARLOSJUNY\\.nuget\\packages\\",
-        "outputPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Application\\obj\\",
+        "projectPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Application\\Application.csproj",
+        "packagesPath": "C:\\Users\\ALIGERALD\\.nuget\\packages\\",
+        "outputPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\CARLOSJUNY\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ALIGERALD\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -543,7 +542,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -551,8 +549,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Domain\\Domain.csproj"
+              "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Domain\\Domain.csproj"
               }
             }
           }
@@ -589,7 +587,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Users\\ALIGERALD\\.dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -867,20 +865,20 @@
         }
       }
     },
-    "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Domain\\Domain.csproj": {
+    "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\CARLOSJUNY\\.nuget\\packages\\",
-        "outputPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Domain\\obj\\",
+        "projectPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\ALIGERALD\\.nuget\\packages\\",
+        "outputPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\CARLOSJUNY\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ALIGERALD\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -889,7 +887,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -931,7 +928,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Users\\ALIGERALD\\.dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -1209,20 +1206,20 @@
         }
       }
     },
-    "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Infrastructure\\Infrastructure.csproj": {
+    "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Infrastructure\\Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\CARLOSJUNY\\.nuget\\packages\\",
-        "outputPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Infrastructure\\obj\\",
+        "projectPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Infrastructure\\Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\ALIGERALD\\.nuget\\packages\\",
+        "outputPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\CARLOSJUNY\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ALIGERALD\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -1231,7 +1228,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -1239,11 +1235,11 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Application\\Application.csproj": {
-                "projectPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Application\\Application.csproj"
+              "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Application\\Application.csproj": {
+                "projectPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Application\\Application.csproj"
               },
-              "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Domain\\Domain.csproj"
+              "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Domain\\Domain.csproj"
               }
             }
           }
@@ -1280,7 +1276,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Users\\ALIGERALD\\.dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -1558,20 +1554,20 @@
         }
       }
     },
-    "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Persistence\\Persistence.csproj": {
+    "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Persistence\\Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Persistence\\Persistence.csproj",
+        "projectUniqueName": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Persistence\\Persistence.csproj",
         "projectName": "Persistence",
-        "projectPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Persistence\\Persistence.csproj",
-        "packagesPath": "C:\\Users\\CARLOSJUNY\\.nuget\\packages\\",
-        "outputPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Persistence\\obj\\",
+        "projectPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Persistence\\Persistence.csproj",
+        "packagesPath": "C:\\Users\\ALIGERALD\\.nuget\\packages\\",
+        "outputPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Persistence\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\CARLOSJUNY\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ALIGERALD\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -1580,7 +1576,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -1588,11 +1583,11 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Application\\Application.csproj": {
-                "projectPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Application\\Application.csproj"
+              "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Application\\Application.csproj": {
+                "projectPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Application\\Application.csproj"
               },
-              "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\PROYECTOS\\Personal\\Proyectos Carlos\\1.proyectos-github\\modulapp-life\\life-backend\\Domain\\Domain.csproj"
+              "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\xampp\\htdocs\\proyectos\\modulapp-life\\life-backend\\Domain\\Domain.csproj"
               }
             }
           }
@@ -1613,6 +1608,12 @@
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[10.0.12, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -1629,7 +1630,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Users\\ALIGERALD\\.dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",

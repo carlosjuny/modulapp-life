@@ -15,3 +15,20 @@ D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-bac
 D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\refint\Persistence.dll
 D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persistence.pdb
 D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\ref\Persistence.dll
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\bin\Debug\net10.0\Persistence.deps.json
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\bin\Debug\net10.0\Persistence.dll
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\bin\Debug\net10.0\Persistence.pdb
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\bin\Debug\net10.0\Application.dll
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\bin\Debug\net10.0\Domain.dll
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\bin\Debug\net10.0\Application.pdb
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\bin\Debug\net10.0\Domain.pdb
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persistence.csproj.AssemblyReference.cache
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persistence.GeneratedMSBuildEditorConfig.editorconfig
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persistence.AssemblyInfoInputs.cache
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persistence.AssemblyInfo.cs
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persistence.csproj.CoreCompileInputs.cache
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persiste.61C28332.Up2Date
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persistence.dll
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\refint\Persistence.dll
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\Persistence.pdb
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Persistence\obj\Debug\net10.0\ref\Persistence.dll

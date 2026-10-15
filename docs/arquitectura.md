@@ -62,4 +62,4 @@ Este documento se completa a medida que los tickets siguientes definan casos de 
 
 ## Entornos y ramas
 
-La estrategia de ramas (`dev-* → review → main → release/<año>`) está en el [README](../README.md).
+La estrategia de ramas (`dev-* → review → main → release`) está en el [README](../README.md).

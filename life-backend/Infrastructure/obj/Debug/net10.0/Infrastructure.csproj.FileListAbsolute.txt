@@ -15,3 +15,20 @@ D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-bac
 D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\refint\Infrastructure.dll
 D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastructure.pdb
 D:\PROYECTOS\Personal\Proyectos Carlos\1.proyectos-github\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\ref\Infrastructure.dll
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\bin\Debug\net10.0\Infrastructure.deps.json
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\bin\Debug\net10.0\Infrastructure.dll
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\bin\Debug\net10.0\Infrastructure.pdb
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\bin\Debug\net10.0\Application.dll
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\bin\Debug\net10.0\Domain.dll
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\bin\Debug\net10.0\Application.pdb
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\bin\Debug\net10.0\Domain.pdb
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastructure.csproj.AssemblyReference.cache
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastructure.AssemblyInfoInputs.cache
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastructure.AssemblyInfo.cs
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastructure.csproj.CoreCompileInputs.cache
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastr.15EFFBFE.Up2Date
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastructure.dll
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\refint\Infrastructure.dll
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\Infrastructure.pdb
+C:\xampp\htdocs\proyectos\modulapp-life\life-backend\Infrastructure\obj\Debug\net10.0\ref\Infrastructure.dll
