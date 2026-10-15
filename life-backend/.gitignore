@@ -1,0 +1,35 @@
+# Backend (.NET)
+
+# Build
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+publish/
+artifacts/
+
+# IDE
+.vs/
+*.user
+*.suo
+*.userprefs
+
+# Tests y cobertura
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# Configuración local y secretos (la cadena de conexión nunca se versiona)
+appsettings.Development.local.json
+appsettings.*.local.json
+secrets.json
+
+# Bases de datos locales
+*.mdf
+*.ldf
+*.dbmdl
+
+# Otros
+*.log
+.dotnet/
