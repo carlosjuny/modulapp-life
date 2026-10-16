@@ -41,7 +41,7 @@ export function ThemeProvider({
   const systemTheme = useColorScheme();
 
   const [preference, setPreferenceState] =
-    useState<ThemePreference>('system');
+    useState<ThemePreference>('light');
 
   const [loaded, setLoaded] = useState(false);
 

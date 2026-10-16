@@ -4,7 +4,7 @@ import { useTheme } from  '../context/ThemeContext';
 export default function WelcomeScreen() {
   const { globalStyles, globalTextStyles } = useTheme();
   return (
-    <View style={[globalStyles.flex1, globalStyles.bg, globalStyles.p16]}>
+    <View>
       <Text style={[globalTextStyles.textXl, globalTextStyles.textPrimary]}>
         Bienvenido
       </Text>
