@@ -47,6 +47,32 @@ cd modulapp-life
 git checkout dev-backend    # o dev-frontend, según lo que vayas a tocar
 ```
 
+### Atajo: todo con Docker Compose
+
+Con Docker instalado, un solo comando levanta SQL Server y la API (aplica las migraciones al arrancar):
+
+```bash
+cp .env.example .env        # definir MSSQL_SA_PASSWORD
+docker compose up --build
+```
+
+La API queda en `http://localhost:5187` (`/health`, `/swagger`). El frontend se corre aparte (sección 3) con
+`life-frontend/.env.example` copiado a `.env.local`.
+
+### Variables por ambiente
+
+| Variable | dev | staging | producción |
+|---|---|---|---|
+| `ASPNETCORE_ENVIRONMENT` | `Development` | `Staging` | `Production` |
+| `ConnectionStrings__DefaultConnection` | `.env` / user-secrets | secreto del entorno | secreto del entorno |
+| `Cors__AllowedOrigins__N` | localhost (Expo) | dominio de staging | dominio de producción |
+| `Database__MigrateOnStartup` | `true` | opcional | ignorada (las migraciones se aplican en el despliegue) |
+| `Database__SeedOnStartup` | opcional | ignorada | ignorada |
+| `EXPO_PUBLIC_API_URL` / `EXPO_PUBLIC_APP_ENV` | local | URL de staging / `staging` | URL de producción / `production` |
+
+Los secretos van siempre por variables de entorno (o user-secrets en local); `.env*` está ignorado por git y solo se
+versionan los `.env.example`.
+
 ### 1. Base de datos
 
 El backend ya referencia EF Core y SQL Server, pero **todavía no define `DbContext`, cadena de conexión ni

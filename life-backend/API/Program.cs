@@ -1,5 +1,6 @@
 using API.Endpoints;
 using API.Middleware;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,6 +38,13 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 app.UseExceptionHandler();
+
+if (!app.Environment.IsProduction() && app.Configuration.GetValue<bool>("Database:MigrateOnStartup"))
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await db.Database.MigrateAsync();
+}
 
 if (app.Environment.IsDevelopment() && app.Configuration.GetValue<bool>("Database:SeedOnStartup"))
 {

@@ -1,0 +1,37 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:?Define MSSQL_SA_PASSWORD en .env}
+    ports:
+      - "${DB_PORT:-1433}:1433"
+    volumes:
+      - life-sqldata:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -Q \"SELECT 1\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  api:
+    build:
+      context: ./life-backend
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: "Server=db,1433;Database=${DB_NAME:-modulapp_life};User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=True"
+      Database__MigrateOnStartup: ${DATABASE_MIGRATE_ON_STARTUP:-true}
+      Database__SeedOnStartup: ${DATABASE_SEED_ON_STARTUP:-false}
+      Cors__AllowedOrigins__0: ${CORS_ORIGIN_0:-http://localhost:8081}
+      Cors__AllowedOrigins__1: ${CORS_ORIGIN_1:-http://localhost:19006}
+    ports:
+      - "${API_PORT:-5187}:8080"
+
+volumes:
+  life-sqldata:
