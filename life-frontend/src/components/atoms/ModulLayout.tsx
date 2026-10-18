@@ -28,7 +28,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
         <View
           style={[
             globalStyles.flex1,
-            globalStyles.px16,
+            globalStyles.py16,
             {
               width: '100%',
               maxWidth: 720,

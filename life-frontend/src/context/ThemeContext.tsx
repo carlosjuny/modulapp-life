@@ -18,7 +18,7 @@ import {
 import {
   createGlobalStyles,
   createGlobalTextStyles,
-} from '../style/global';
+} from '../styles/global';
 
 const THEME_STORAGE_KEY = '@modulapp/theme';
 

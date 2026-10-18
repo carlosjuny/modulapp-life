@@ -10,6 +10,10 @@ export const createGlobalStyles = (colors: ThemeColors) =>
     h100: { height: 100 },
     hFull: { height: '100%' },
 
+    minH58: { minHeight: 58 },
+    w28: { width: 28 },
+    h3: { height: 3 },
+
     // Spacing (escala: 4, 8, 12, 16, 24, 32, 48, 64)
     p0: { padding: 0 },
     p4: { padding: 4 },
@@ -21,7 +25,10 @@ export const createGlobalStyles = (colors: ThemeColors) =>
     p48: { padding: 48 },
     p64: { padding: 64 },
 
+    pt6: { paddingTop: 6 },
+
     // Margen lateral estándar (16) y vertical
+    px2: { paddingHorizontal: 2 },
     px16: { paddingHorizontal: 16 },
     px24: { paddingHorizontal: 24 },
     py8: { paddingVertical: 8 },
@@ -57,6 +64,7 @@ export const createGlobalStyles = (colors: ThemeColors) =>
     column: { flexDirection: 'column' },
     alignCenter: { alignItems: 'center' },
     justifyBetween: { justifyContent: 'space-between' },
+    justifyCenter: { justifyContent: 'center' },
 
     // Position
     relative: { position: 'relative' },
@@ -73,6 +81,7 @@ export const createGlobalStyles = (colors: ThemeColors) =>
     // Radios: 8 por defecto, 12 en superficies grandes
     rounded: { borderRadius: 8 },
     roundedLg: { borderRadius: 12 },
+    roundedFull: { borderRadius: 999 },
 
     // Elevación: borde primero, sombra suave solo en elementos flotantes
     border: { borderWidth: 1, borderColor: colors.border },
@@ -82,6 +91,12 @@ export const createGlobalStyles = (colors: ThemeColors) =>
       shadowOpacity: 0.12,
       shadowRadius: 8,
       elevation: 4,
+    },
+
+    // Borders
+    borderTop: {
+      borderTopWidth: StyleSheet.hairlineWidth,
+      borderTopColor: colors.border,
     },
   });
 
