@@ -87,11 +87,7 @@ export const createGlobalStyles = (colors: ThemeColors) =>
 
 export const createGlobalTextStyles = (colors: ThemeColors) =>
   StyleSheet.create({
-    textSm: { fontSize: 14 },
-    textMd: { fontSize: 16 },
-    textLg: { fontSize: 18 },
-    textXl: { fontSize: 24 },
-
+    // Los tamaños viven en las variantes del componente Text (theme/typography.ts)
     textPrimary: { color: colors.text },
     textSecondary: { color: colors.textSecondary },
     textOnPrimary: { color: colors.white },
