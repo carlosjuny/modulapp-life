@@ -1,0 +1,46 @@
+name: Mobile CI
+
+on:
+  pull_request:
+    branches: [review, main]
+    paths:
+      - "life-frontend/**"
+      - ".github/workflows/mobile.yml"
+  push:
+    branches: [dev-frontend]
+    paths:
+      - "life-frontend/**"
+      - ".github/workflows/mobile.yml"
+
+concurrency:
+  group: mobile-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-typecheck-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: life-frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: life-frontend/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      # Hoy package.json no define scripts lint ni test; --if-present los omite
+      # y empiezan a correr en cuanto se agreguen.
+      - name: Lint
+        run: npm run lint --if-present
+
+      - name: Test
+        run: npm test --if-present

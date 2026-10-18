@@ -1,0 +1,41 @@
+name: Backend CI
+
+on:
+  pull_request:
+    branches: [review, main]
+    paths:
+      - "life-backend/**"
+      - ".github/workflows/backend.yml"
+  push:
+    branches: [dev-backend]
+    paths:
+      - "life-backend/**"
+      - ".github/workflows/backend.yml"
+
+concurrency:
+  group: backend-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: life-backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore life-backend.slnx
+
+      - name: Build
+        run: dotnet build life-backend.slnx --configuration Release --no-restore
+
+      # Hoy la solución no tiene proyectos de pruebas; el paso pasa en vacío y
+      # empieza a ejecutar pruebas en cuanto se agregue uno al .slnx.
+      - name: Test
+        run: dotnet test life-backend.slnx --configuration Release --no-build --verbosity normal

@@ -1,5 +1,8 @@
 # ModulApp Life
 
+[![Backend CI](https://github.com/carlosjuny/modulapp-life/actions/workflows/backend.yml/badge.svg?branch=main)](https://github.com/carlosjuny/modulapp-life/actions/workflows/backend.yml)
+[![Mobile CI](https://github.com/carlosjuny/modulapp-life/actions/workflows/mobile.yml/badge.svg?branch=main)](https://github.com/carlosjuny/modulapp-life/actions/workflows/mobile.yml)
+
 Monorepo de ModulApp Life: backend .NET 10 (Clean Architecture) y frontend React Native con Expo, sobre SQL Server.
 
 ## Requisitos
@@ -128,6 +131,10 @@ Antes de tocar APIs de Expo o React Native, leer [life-frontend/AGENTS.md](life-
 | Frontend | `npx tsc --noEmit` y `npx expo lint` (desde `life-frontend/`) |
 
 Hoy ninguno de los dos proyectos tiene tests automáticos.
+
+Estas verificaciones también corren en GitHub Actions (`.github/workflows/backend.yml` y `mobile.yml`) en cada pull
+request hacia `review` y `main`, y en push a `dev-backend` / `dev-frontend`. El backend ejecuta `dotnet restore`,
+`build` y `test`; el mobile ejecuta `npm ci`, `tsc --noEmit` y, cuando existan los scripts, `lint` y `test`.
 
 ## Estrategia de ramas
 
