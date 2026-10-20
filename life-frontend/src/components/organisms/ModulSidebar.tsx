@@ -22,7 +22,7 @@ const DEMO_USER = {
 
 const ITEMS = [
   { label: 'Ajustes de la cuenta', icon: UserCircleIcon, href: '/tabs/account' },
-  { label: 'Configuración de la app', icon: SettingsIcon, href: '/tabs/settings' },
+  { label: 'Configuración de la app', icon: SettingsIcon, href: '/tabs/diagnostico' },
 ];
 
 type Props = { visible: boolean; onClose: () => void };

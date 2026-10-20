@@ -20,6 +20,7 @@ export default function TabsLayout() {
       <Tabs.Screen name="mailbox" options={{ title: 'Buzon' }} />
       <Tabs.Screen name="planer" options={{ title: 'Agenda' }} />
       <Tabs.Screen name="moduls" options={{ title: 'Módulos' }} />
+      <Tabs.Screen name="diagnostico" options={{ title: 'Diagnóstico', href: null }} />
     </Tabs>
   );
 }
