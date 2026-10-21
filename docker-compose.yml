@@ -28,6 +28,7 @@ services:
       ConnectionStrings__DefaultConnection: "Server=db,1433;Database=${DB_NAME:-modulapp_life};User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=True"
       Database__MigrateOnStartup: ${DATABASE_MIGRATE_ON_STARTUP:-true}
       Database__SeedOnStartup: ${DATABASE_SEED_ON_STARTUP:-false}
+      Sentry__Dsn: ${SENTRY_DSN:-}
       Cors__AllowedOrigins__0: ${CORS_ORIGIN_0:-http://localhost:8081}
       Cors__AllowedOrigins__1: ${CORS_ORIGIN_1:-http://localhost:19006}
     ports:

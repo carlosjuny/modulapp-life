@@ -71,6 +71,8 @@ La API queda en `http://localhost:5187` (`/health`, `/swagger`). El frontend se 
 | `Cors__AllowedOrigins__N` | localhost (Expo) | dominio de staging | dominio de producción |
 | `Database__MigrateOnStartup` | `true` | opcional | ignorada (las migraciones se aplican en el despliegue) |
 | `Database__SeedOnStartup` | opcional | ignorada | ignorada |
+| `Sentry__Dsn` | vacío (desactivado) | secreto del entorno | secreto del entorno |
+| `Observability__MetricsEnabled` | `true` | `true` | `true` (restringir `/metrics` a red interna) |
 | `EXPO_PUBLIC_API_URL` / `EXPO_PUBLIC_APP_ENV` | local | URL de staging / `staging` | URL de producción / `production` |
 
 Los secretos van siempre por variables de entorno (o user-secrets en local); `.env*` está ignorado por git y solo se

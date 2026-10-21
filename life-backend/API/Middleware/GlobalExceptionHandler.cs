@@ -20,6 +20,7 @@ public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logge
             Instance = httpContext.Request.Path
         };
         problem.Extensions["traceId"] = httpContext.TraceIdentifier;
+        problem.Extensions["correlationId"] = httpContext.Items[CorrelationIdMiddleware.ItemKey];
 
         httpContext.Response.StatusCode = problem.Status.Value;
         await httpContext.Response.WriteAsJsonAsync(problem, cancellationToken);

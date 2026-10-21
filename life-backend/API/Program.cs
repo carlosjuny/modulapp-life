@@ -1,11 +1,52 @@
 using API.Endpoints;
 using API.Middleware;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Metrics;
 using Persistence;
+using Serilog;
+using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.Development.local.json", optional: true, reloadOnChange: true);
+
+builder.WebHost.UseSentry(options =>
+{
+    options.Dsn = builder.Configuration["Sentry:Dsn"] ?? string.Empty;
+    options.Environment = builder.Environment.EnvironmentName;
+    options.SendDefaultPii = false;
+});
+
+builder.Host.UseSerilog((context, services, logger) =>
+{
+    logger
+        .ReadFrom.Configuration(context.Configuration)
+        .Enrich.FromLogContext()
+        .WriteTo.Sentry(sentry =>
+        {
+            sentry.InitializeSdk = false;
+            sentry.MinimumEventLevel = Serilog.Events.LogEventLevel.Error;
+        });
+
+    if (context.HostingEnvironment.IsDevelopment())
+    {
+        logger.WriteTo.Console(
+            outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{CorrelationId}] {Message:lj}{NewLine}{Exception}");
+    }
+    else
+    {
+        logger.WriteTo.Console(new RenderedCompactJsonFormatter());
+    }
+});
+
+var metricsEnabled = builder.Configuration.GetValue("Observability:MetricsEnabled", true);
+if (metricsEnabled)
+{
+    builder.Services.AddOpenTelemetry()
+        .WithMetrics(metrics => metrics
+            .AddAspNetCoreInstrumentation()
+            .AddPrometheusExporter());
+}
 
 builder.Services.AddOpenApi();
 
@@ -37,6 +78,8 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseMiddleware<CorrelationIdMiddleware>();
+app.UseSerilogRequestLogging();
 app.UseExceptionHandler();
 
 if (!app.Environment.IsProduction() && app.Configuration.GetValue<bool>("Database:MigrateOnStartup"))
@@ -68,6 +111,11 @@ app.UseHttpsRedirection();
 app.UseCors(corsPolicyName);
 
 app.MapHealthChecks("/health");
+
+if (metricsEnabled)
+{
+    app.MapPrometheusScrapingEndpoint("/metrics");
+}
 
 app.MapApiEndpoints();
 
