@@ -1,5 +1,6 @@
 using API.Endpoints;
 using API.Middleware;
+using Application.EventsLog;
 using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Metrics;
 using Persistence;
@@ -58,6 +59,7 @@ if (string.IsNullOrWhiteSpace(connectionString))
 }
 
 builder.Services.AddPersistence(connectionString);
+builder.Services.AddScoped<EventLogService>();
 builder.Services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();

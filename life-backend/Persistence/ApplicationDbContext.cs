@@ -16,6 +16,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public DbSet<Subscription> Subscriptions => Set<Subscription>();
 
+    public DbSet<EventLog> EventsLog => Set<EventLog>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
