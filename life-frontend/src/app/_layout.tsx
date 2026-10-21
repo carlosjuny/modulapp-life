@@ -1,9 +1,22 @@
-import { Stack } from 'expo-router';
+import { useEffect } from 'react';
+import { Stack, type ErrorBoundaryProps } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import ErrorFallback from '../components/organisms/ErrorFallback';
 import { ThemeProvider } from '../context/ThemeContext';
+import { initMonitoring, reportError, wrapWithMonitoring } from '../services/monitoring';
 
-export default function RootLayout() {
+initMonitoring();
+
+export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
+  useEffect(() => {
+    reportError(error);
+  }, [error]);
+
+  return <ErrorFallback onRetry={retry} />;
+}
+
+function RootLayout() {
   return (
     <SafeAreaProvider>
       <ThemeProvider>
@@ -13,3 +26,4 @@ export default function RootLayout() {
   );
 }
 
+export default wrapWithMonitoring(RootLayout);
