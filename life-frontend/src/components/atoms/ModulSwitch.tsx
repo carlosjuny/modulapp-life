@@ -41,7 +41,7 @@ export default function ModulSwitch({
         value={value}
         onValueChange={onValueChange}
         disabled={disabled}
-        trackColor={{ false: colors.border, true: colors.primary }}
+        trackColor={{ false: colors.borderStrong, true: colors.primary }}
         thumbColor={colors.tertiary}
       />
     </Pressable>

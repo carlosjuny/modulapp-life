@@ -63,7 +63,7 @@ export default function ModulButton({
         style,
       ]}
     >
-      {loading && <ActivityIndicator color={filled ? colors.white : colors.primary} />}
+      {loading && <ActivityIndicator color={filled ? colors.onAccent : colors.primary} />}
       <ModulText
         variant="button"
         style={filled ? globalTextStyles.textOnPrimary : globalTextStyles.textBrand}

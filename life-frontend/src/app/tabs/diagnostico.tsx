@@ -76,6 +76,7 @@ export default function Diagnostico() {
         <Pressable
           onPress={retry}
           accessibilityRole="button"
+          accessibilityLabel="Reintentar"
           style={{ marginTop: 24 }}
         >
           <ModulText variant="button" style={{ color: colors.primary }}>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Animated, Modal, Pressable, useWindowDimensions } from 'react-native';
 import { usePathname, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useReduceMotion } from '../../hooks/useReduceMotion';
 import {
   SettingsIcon,
   UserCircleIcon,
@@ -29,6 +30,7 @@ type Props = { visible: boolean; onClose: () => void };
 
 export default function ModulSidebar({ visible, onClose }: Props) {
   const { colors } = useTheme();
+  const reduceMotion = useReduceMotion();
   const router = useRouter();
   const pathname = usePathname();
   const insets = useSafeAreaInsets();
@@ -41,22 +43,14 @@ export default function ModulSidebar({ visible, onClose }: Props) {
   if (visible && !mounted) setMounted(true);
 
   useEffect(() => {
-    if (visible) {
-      Animated.timing(progress, {
-        toValue: 1,
-        duration: 250,
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.timing(progress, {
-        toValue: 0,
-        duration: 200,
-        useNativeDriver: true,
-      }).start(({ finished }) => {
-        if (finished) setMounted(false);
-      });
-    }
-  }, [visible, progress]);
+    Animated.timing(progress, {
+      toValue: visible ? 1 : 0,
+      duration: reduceMotion ? 0 : visible ? 250 : 200,
+      useNativeDriver: true,
+    }).start(({ finished }) => {
+      if (finished && !visible) setMounted(false);
+    });
+  }, [visible, progress, reduceMotion]);
 
   // Entra y sale por el lado izquierdo
   const translateX = progress.interpolate({
@@ -175,7 +169,7 @@ export default function ModulSidebar({ visible, onClose }: Props) {
 
         {/* Fondo para cerrar */}
         <Animated.View
-          style={{ flex: 1, backgroundColor: '#000', opacity: overlayOpacity }}
+          style={{ flex: 1, backgroundColor: colors.black, opacity: overlayOpacity }}
         >
           <Pressable
             style={{ flex: 1 }}

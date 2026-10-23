@@ -115,7 +115,7 @@ export const createGlobalStyles = (colors: ThemeColors) =>
     roundedFull: { borderRadius: 999 },
 
     // Elevación: borde primero, sombra suave solo en elementos flotantes
-    border: { borderWidth: 1, borderColor: colors.border },
+    border: { borderWidth: 1, borderColor: colors.borderStrong },
     floating: {
       shadowColor: colors.black,
       shadowOffset: { width: 0, height: 4 },
@@ -136,7 +136,7 @@ export const createGlobalTextStyles = (colors: ThemeColors) =>
     // Los tamaños viven en las variantes del componente Text (theme/typography.ts)
     textPrimary: { color: colors.text },
     textSecondary: { color: colors.textSecondary },
-    textOnPrimary: { color: colors.white },
+    textOnPrimary: { color: colors.onAccent },
     textBrand: { color: colors.primary }, // NUEVO
     textDanger: { color: colors.danger },
 
