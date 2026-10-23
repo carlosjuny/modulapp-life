@@ -2,6 +2,13 @@
 import { StyleSheet } from 'react-native';
 import type { ThemeColors } from '../theme/colors';
 
+// Tokens de layout de pantalla (los usa ModulLayout)
+export const layout = {
+  maxContentWidth: 720,
+  screenMargin: 16,
+  screenPaddingY: 16,
+} as const;
+
 export const createGlobalStyles = (colors: ThemeColors) =>
   StyleSheet.create({
     // Dimensions
