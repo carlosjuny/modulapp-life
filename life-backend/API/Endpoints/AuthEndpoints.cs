@@ -10,10 +10,13 @@ public static class AuthEndpoints
 
     public record RefreshRequest(string? RefreshToken);
 
+    public record SocialLoginRequest(string? Provider, string? IdToken);
+
     public static RouteGroupBuilder MapAuthEndpoints(this RouteGroupBuilder auth)
     {
         auth.MapPost("/register", RegisterAsync);
         auth.MapPost("/login", LoginAsync);
+        auth.MapPost("/social", SocialLoginAsync);
         auth.MapPost("/refresh", RefreshAsync);
         auth.MapPost("/logout", LogoutAsync);
 
@@ -25,6 +28,9 @@ public static class AuthEndpoints
 
     private static async Task<IResult> LoginAsync(LoginRequest request, AuthService service, CancellationToken cancellationToken)
         => ToResult(await service.LoginAsync(request.Email, request.Password, cancellationToken));
+
+    private static async Task<IResult> SocialLoginAsync(SocialLoginRequest request, AuthService service, CancellationToken cancellationToken)
+        => ToResult(await service.SocialLoginAsync(request.Provider, request.IdToken, cancellationToken));
 
     private static async Task<IResult> RefreshAsync(RefreshRequest request, AuthService service, CancellationToken cancellationToken)
         => ToResult(await service.RefreshAsync(request.RefreshToken, cancellationToken));
@@ -43,7 +49,7 @@ public static class AuthEndpoints
             return Results.Ok(result.Tokens);
         }
 
-        var statusCode = result.Status is AuthStatus.InvalidCredentials or AuthStatus.InvalidRefreshToken
+        var statusCode = result.Status is AuthStatus.InvalidCredentials or AuthStatus.InvalidRefreshToken or AuthStatus.InvalidSocialToken
             ? StatusCodes.Status401Unauthorized
             : StatusCodes.Status400BadRequest;
 

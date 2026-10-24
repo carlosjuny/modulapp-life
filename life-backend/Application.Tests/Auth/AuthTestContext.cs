@@ -10,11 +10,13 @@ public class AuthTestContext
 
     public FakeClock Clock { get; } = new();
 
+    public FakeExternalTokenValidator ExternalValidator { get; } = new();
+
     public AuthService Service { get; }
 
     public AuthTestContext()
     {
-        Service = new AuthService(Store, new FakePasswordHasher(), new FakeTokenService(Clock), Clock);
+        Service = new AuthService(Store, new FakePasswordHasher(), new FakeTokenService(Clock), ExternalValidator, Clock);
     }
 }
 
@@ -26,6 +28,8 @@ public class FakeAuthStore : IAuthStore
 
     public List<RefreshToken> RefreshTokens { get; } = [];
 
+    public List<ExternalLogin> ExternalLogins { get; } = [];
+
     public bool ConcurrentRotationDetected { get; set; }
 
     public Task<User?> FindUserByEmailAsync(string email, CancellationToken cancellationToken)
@@ -36,6 +40,9 @@ public class FakeAuthStore : IAuthStore
 
     public Task<UserCredential?> FindCredentialAsync(Guid userId, CancellationToken cancellationToken)
         => Task.FromResult(Credentials.FirstOrDefault(c => c.UserId == userId));
+
+    public Task<ExternalLogin?> FindExternalLoginAsync(string provider, string subject, CancellationToken cancellationToken)
+        => Task.FromResult(ExternalLogins.FirstOrDefault(l => l.Provider == provider && l.Subject == subject));
 
     public Task<RefreshToken?> FindRefreshTokenAsync(string tokenHash, CancellationToken cancellationToken)
         => Task.FromResult(RefreshTokens.FirstOrDefault(t => t.TokenHash == tokenHash));
@@ -61,6 +68,10 @@ public class FakeAuthStore : IAuthStore
                 credential.UserId = credential.User?.Id ?? credential.UserId;
                 Credentials.Add(credential);
                 break;
+            case ExternalLogin externalLogin:
+                externalLogin.UserId = externalLogin.User?.Id ?? externalLogin.UserId;
+                ExternalLogins.Add(externalLogin);
+                break;
             case RefreshToken refreshToken:
                 refreshToken.UserId = refreshToken.User?.Id ?? refreshToken.UserId;
                 RefreshTokens.Add(refreshToken);
@@ -71,6 +82,14 @@ public class FakeAuthStore : IAuthStore
     public Task SaveChangesAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
     public Task<bool> TrySaveChangesAsync(CancellationToken cancellationToken) => Task.FromResult(!ConcurrentRotationDetected);
+}
+
+public class FakeExternalTokenValidator : IExternalTokenValidator
+{
+    public Dictionary<(SocialProvider Provider, string Token), ExternalIdentity> ValidTokens { get; } = [];
+
+    public Task<ExternalIdentity?> ValidateAsync(SocialProvider provider, string idToken, CancellationToken cancellationToken)
+        => Task.FromResult(ValidTokens.GetValueOrDefault((provider, idToken)));
 }
 
 public class FakePasswordHasher : IPasswordHasher

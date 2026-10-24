@@ -10,6 +10,8 @@ public interface IAuthStore
 
     Task<UserCredential?> FindCredentialAsync(Guid userId, CancellationToken cancellationToken);
 
+    Task<ExternalLogin?> FindExternalLoginAsync(string provider, string subject, CancellationToken cancellationToken);
+
     Task<RefreshToken?> FindRefreshTokenAsync(string tokenHash, CancellationToken cancellationToken);
 
     Task RevokeActiveRefreshTokensAsync(Guid userId, DateTime revokedAt, CancellationToken cancellationToken);
@@ -18,6 +20,5 @@ public interface IAuthStore
 
     Task SaveChangesAsync(CancellationToken cancellationToken);
 
-    /// <summary>Guarda y devuelve false si otro proceso modificó el mismo refresh token (rotación concurrente).</summary>
     Task<bool> TrySaveChangesAsync(CancellationToken cancellationToken);
 }

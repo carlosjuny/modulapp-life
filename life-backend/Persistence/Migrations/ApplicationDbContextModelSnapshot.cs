@@ -55,6 +55,41 @@ namespace Persistence.Migrations
                     b.ToTable("events_log", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.ExternalLogin", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Provider")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("Provider", "Subject")
+                        .IsUnique();
+
+                    b.ToTable("external_logins", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.Household", b =>
                 {
                     b.Property<Guid>("Id")
@@ -373,6 +408,17 @@ namespace Persistence.Migrations
                     b.Navigation("ActorUser");
 
                     b.Navigation("Household");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ExternalLogin", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entities.Household", b =>

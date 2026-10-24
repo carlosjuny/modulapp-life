@@ -6,7 +6,8 @@ public enum AuthStatus
     ValidationFailed,
     RegistrationFailed,
     InvalidCredentials,
-    InvalidRefreshToken
+    InvalidRefreshToken,
+    InvalidSocialToken
 }
 
 public record AuthUser(Guid Id, string Email, string Name);

@@ -32,6 +32,28 @@ public class AuthEndpointsTests : IClassFixture<AuthApiFactory>
         Assert.Equal(3, (await ReadAsync(response)).GetProperty("accessToken").GetString()!.Split('.').Length);
     }
 
+    [Theory]
+    [InlineData("google")]
+    [InlineData("apple")]
+    public async Task Social_ConTokenDeProveedorInvalido_Devuelve401(string provider)
+    {
+        var body = new { provider, idToken = "token-invalido" };
+
+        var response = await _client.PostAsJsonAsync("/auth/social", body);
+
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Social_ConProveedorNoSoportado_Devuelve400()
+    {
+        var body = new { provider = "facebook", idToken = "token" };
+
+        var response = await _client.PostAsJsonAsync("/auth/social", body);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
     [Fact]
     public async Task Register_ConCorreoRepetido_Devuelve400Generico()
     {

@@ -11,10 +11,14 @@ public static class DependencyInjection
     {
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
 
+        services.Configure<SocialAuthOptions>(configuration.GetSection(SocialAuthOptions.SectionName));
+
         services.AddSingleton(TimeProvider.System);
 
         services.AddSingleton<Application.Abstractions.IPasswordHasher, AspNetPasswordHasher>();
         services.AddSingleton<ITokenService, JwtTokenService>();
+        services.AddSingleton<ISocialSigningKeyProvider, OidcSocialSigningKeyProvider>();
+        services.AddSingleton<IExternalTokenValidator, SocialTokenValidator>();
 
         return services;
     }

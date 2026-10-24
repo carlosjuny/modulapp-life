@@ -3,10 +3,11 @@ using Domain.Entities;
 
 namespace Application.Auth;
 
-public class AuthService(IAuthStore store, IPasswordHasher passwordHasher, ITokenService tokenService, TimeProvider clock)
+public class AuthService(IAuthStore store, IPasswordHasher passwordHasher, ITokenService tokenService, IExternalTokenValidator externalTokenValidator, TimeProvider clock)
 {
     private const string InvalidCredentialsMessage = "Correo o contraseña incorrectos.";
     private const string InvalidRefreshTokenMessage = "La sesión no es válida.";
+    private const string InvalidSocialTokenMessage = "No se pudo iniciar sesión con el proveedor.";
     private const string RegistrationFailedMessage = "No se pudo completar el registro.";
 
     public async Task<AuthResult> RegisterAsync(string? email, string? password, string? name, CancellationToken cancellationToken = default)
@@ -64,6 +65,52 @@ public class AuthService(IAuthStore store, IPasswordHasher passwordHasher, IToke
         return AuthResult.Success(tokens);
     }
 
+    public async Task<AuthResult> SocialLoginAsync(string? provider, string? idToken, CancellationToken cancellationToken = default)
+    {
+        if (!Enum.TryParse<SocialProvider>(provider?.Trim(), ignoreCase: true, out var socialProvider) || !Enum.IsDefined(socialProvider))
+        {
+            return AuthResult.Fail(AuthStatus.ValidationFailed, "El proveedor no es válido.");
+        }
+
+        if (string.IsNullOrWhiteSpace(idToken))
+        {
+            return InvalidSocialToken();
+        }
+
+        var identity = await externalTokenValidator.ValidateAsync(socialProvider, idToken, cancellationToken);
+        if (identity is null || string.IsNullOrWhiteSpace(identity.Subject))
+        {
+            return InvalidSocialToken();
+        }
+
+        var providerName = socialProvider.ToString();
+        var link = await store.FindExternalLoginAsync(providerName, identity.Subject, cancellationToken);
+        var user = link is null ? null : await store.FindUserByIdAsync(link.UserId, cancellationToken);
+
+        if (user is null)
+        {
+            var email = AuthValidator.NormalizeEmail(identity.Email);
+            if (!identity.EmailVerified || !AuthValidator.IsValidEmail(email))
+            {
+                return InvalidSocialToken();
+            }
+
+            user = await store.FindUserByEmailAsync(email, cancellationToken);
+            if (user is null)
+            {
+                user = new User { Email = email, Name = ResolveName(identity.Name, email) };
+                store.Add(user);
+            }
+
+            store.Add(new ExternalLogin { User = user, Provider = providerName, Subject = identity.Subject });
+        }
+
+        var tokens = IssueTokens(user);
+        await store.SaveChangesAsync(cancellationToken);
+
+        return AuthResult.Success(tokens);
+    }
+
     public async Task<AuthResult> RefreshAsync(string? refreshToken, CancellationToken cancellationToken = default)
     {
         var stored = await FindRefreshTokenAsync(refreshToken, cancellationToken);
@@ -76,7 +123,6 @@ public class AuthService(IAuthStore store, IPasswordHasher passwordHasher, IToke
 
         if (stored.ReplacedByTokenId is not null)
         {
-            // Un token ya rotado se presentó de nuevo: se asume robo y se cierran todas las sesiones del usuario.
             await store.RevokeActiveRefreshTokensAsync(stored.UserId, now, cancellationToken);
             await store.SaveChangesAsync(cancellationToken);
 
@@ -98,7 +144,6 @@ public class AuthService(IAuthStore store, IPasswordHasher passwordHasher, IToke
         stored.RevokedAt = now;
         stored.ReplacedByTokenId = replacement.Id;
 
-        // Si dos solicitudes rotan el mismo token a la vez, solo una guarda; la otra se rechaza.
         if (!await store.TrySaveChangesAsync(cancellationToken))
         {
             return InvalidRefreshToken();
@@ -123,6 +168,15 @@ public class AuthService(IAuthStore store, IPasswordHasher passwordHasher, IToke
         => string.IsNullOrWhiteSpace(refreshToken)
             ? Task.FromResult<RefreshToken?>(null)
             : store.FindRefreshTokenAsync(tokenService.HashRefreshToken(refreshToken), cancellationToken);
+
+    private static AuthResult InvalidSocialToken() => AuthResult.Fail(AuthStatus.InvalidSocialToken, InvalidSocialTokenMessage);
+
+    private static string ResolveName(string? name, string email)
+    {
+        var resolved = string.IsNullOrWhiteSpace(name) ? email[..email.IndexOf('@')] : name.Trim();
+
+        return resolved.Length > 150 ? resolved[..150] : resolved;
+    }
 
     private static AuthResult InvalidRefreshToken() => AuthResult.Fail(AuthStatus.InvalidRefreshToken, InvalidRefreshTokenMessage);
 

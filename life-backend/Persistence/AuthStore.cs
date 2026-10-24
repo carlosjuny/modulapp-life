@@ -15,6 +15,9 @@ public class AuthStore(ApplicationDbContext db) : IAuthStore
     public Task<UserCredential?> FindCredentialAsync(Guid userId, CancellationToken cancellationToken)
         => db.UserCredentials.FirstOrDefaultAsync(c => c.UserId == userId, cancellationToken);
 
+    public Task<ExternalLogin?> FindExternalLoginAsync(string provider, string subject, CancellationToken cancellationToken)
+        => db.ExternalLogins.FirstOrDefaultAsync(l => l.Provider == provider && l.Subject == subject, cancellationToken);
+
     public Task<RefreshToken?> FindRefreshTokenAsync(string tokenHash, CancellationToken cancellationToken)
         => db.RefreshTokens.FirstOrDefaultAsync(t => t.TokenHash == tokenHash, cancellationToken);
 
