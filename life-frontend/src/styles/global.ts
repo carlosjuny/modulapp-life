@@ -16,6 +16,7 @@ export const createGlobalStyles = (colors: ThemeColors) =>
     w50: { width: '50%' },
     h100: { height: 100 },
     hFull: { height: '100%' },
+    w25: { width: '25%' },
 
     minH58: { minHeight: 58 },
     w28: { width: 28 },
@@ -89,6 +90,8 @@ export const createGlobalStyles = (colors: ThemeColors) =>
     // Layout
     flex1: { flex: 1 },
     row: { flexDirection: 'row' },
+    wrap: { flexWrap: 'wrap' },
+    overflowHidden: { overflow: 'hidden' },
     column: { flexDirection: 'column' },
     alignCenter: { alignItems: 'center' },
     justifyBetween: { justifyContent: 'space-between' },
@@ -113,6 +116,7 @@ export const createGlobalStyles = (colors: ThemeColors) =>
     rounded: { borderRadius: 8 },
     roundedLg: { borderRadius: 12 },
     roundedFull: { borderRadius: 999 },
+    roundedBottomLg: { borderBottomLeftRadius: 12, borderBottomRightRadius: 12 },
 
     // Elevación: borde primero, sombra suave solo en elementos flotantes
     border: { borderWidth: 1, borderColor: colors.borderStrong },

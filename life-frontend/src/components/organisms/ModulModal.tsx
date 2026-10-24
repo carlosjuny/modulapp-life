@@ -1,8 +1,10 @@
 import React from 'react';
 import { Modal, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { CloseIcon } from '@solar-icons/react-native/linear';
 
 import { useTheme } from '../../context/ThemeContext';
+import ModulIcon from '../atoms/ModulIcon';
 import ModulText from '../atoms/ModulText';
 import ModulView from '../atoms/ModulView';
 
@@ -10,7 +12,7 @@ type ModalProps = {
   visible: boolean;
   onClose: () => void;
   title?: string;
-  mode?: 'center' | 'bottom';
+  mode?: 'center' | 'bottom' | 'top';
   children: React.ReactNode;
 };
 
@@ -21,9 +23,11 @@ export default function ModulModal({
                                      mode = 'center',
                                      children,
                                    }: ModalProps) {
-  const { globalStyles, globalTextStyles } = useTheme();
+  const { colors, globalStyles } = useTheme();
   const insets = useSafeAreaInsets();
+  const isCenter = mode === 'center';
   const isBottom = mode === 'bottom';
+  const isTop = mode === 'top';
 
   return (
     <Modal
@@ -32,7 +36,13 @@ export default function ModulModal({
       animationType={isBottom ? 'slide' : 'fade'}
       onRequestClose={onClose}
     >
-      <ModulView flex1 justifyCenter={!isBottom} justifyEnd={isBottom} p16={!isBottom}>
+      <ModulView
+        flex1
+        justifyCenter={isCenter}
+        justifyEnd={isBottom}
+        p16={isCenter}
+        px16={isTop}
+      >
         <Pressable
           onPress={onClose}
           accessibilityRole="button"
@@ -44,9 +54,13 @@ export default function ModulModal({
           bgTertiary
           p16
           gap12
-          roundedLg={!isBottom}
+          roundedLg={isCenter}
           roundedTopLg={isBottom}
-          style={isBottom && { paddingBottom: 16 + insets.bottom }}
+          roundedBottomLg={isTop}
+          style={[
+            isBottom && { paddingBottom: 16 + insets.bottom },
+            isTop && { paddingTop: 16 + insets.top },
+          ]}
         >
           <ModulView row alignCenter justifyBetween>
             <ModulText variant="sectionTitle" style={globalStyles.flex1}>
@@ -63,9 +77,7 @@ export default function ModulModal({
                 globalStyles.justifyCenter,
               ]}
             >
-              <ModulText variant="button" style={globalTextStyles.textBrand}>
-                Cerrar
-              </ModulText>
+              <ModulIcon icon={CloseIcon} color={colors.text} />
             </Pressable>
           </ModulView>
 

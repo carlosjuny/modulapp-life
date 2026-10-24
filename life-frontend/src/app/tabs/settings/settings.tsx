@@ -6,12 +6,15 @@ import ModulLayout from '../../../components/atoms/ModulLayout';
 import ModulListItem from '../../../components/organisms/ModulListItem';
 import { useTheme } from '../../../context/ThemeContext';
 import { strings } from '../../../constants/strings';
+import ModulAppearanceSettings from '../../../components/organisms/ModulAppearanceSettings';
 
 export default function Settings() {
   const { colors } = useTheme();
 
   return (
     <ModulLayout
+      scroll
+      margins
       header={{
         title: strings.screens.settings,
         leftAction: 'back',
@@ -24,6 +27,7 @@ export default function Settings() {
         left={<ModulIcon icon={UserCircleIcon} color={colors.textSecondary} />}
         onPress={() => router.push('/tabs/settings/account' as never)}
       />
+      <ModulAppearanceSettings />
     </ModulLayout>
   );
 }

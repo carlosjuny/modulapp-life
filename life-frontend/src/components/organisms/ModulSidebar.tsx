@@ -7,6 +7,7 @@ import {
   UserCircleIcon,
   LogoutIcon,
   PanelLeftCloseIcon,
+  PaletteIcon,
 } from '@solar-icons/react-native/linear';
 
 import { useReduceMotion } from '../../hooks/useReduceMotion';
@@ -17,6 +18,7 @@ import ModulView from '../atoms/ModulView';
 import ModulText from '../atoms/ModulText';
 import ModulIcon from '../atoms/ModulIcon';
 import ModulAvatar from '../atoms/ModulAvatar';
+import ModulThemeModal from './ModulThemeModal';
 
 const PROFILE_HREF = '/tabs/profile/profile';
 
@@ -38,6 +40,7 @@ export default function ModulSidebar({ visible, onClose }: Props) {
 
   const [progress] = useState(() => new Animated.Value(0));
   const [mounted, setMounted] = useState(visible);
+  const [themeOpen, setThemeOpen] = useState(false);
 
   if (visible && !mounted) setMounted(true);
 
@@ -66,6 +69,12 @@ export default function ModulSidebar({ visible, onClose }: Props) {
     router.push(href as never);
   };
 
+  const openTheme = () => {
+    onClose();
+    // Espera a que el sidebar termine de cerrarse antes de abrir el modal
+    setTimeout(() => setThemeOpen(true), reduceMotion ? 0 : 300);
+  };
+
   const handleSignOut = async () => {
     onClose();
     await signOut();
@@ -76,7 +85,8 @@ export default function ModulSidebar({ visible, onClose }: Props) {
   const profileActive = pathname === PROFILE_HREF;
 
   return (
-    <Modal
+    <>
+      <Modal
       visible={mounted}
       transparent
       animationType="none"
@@ -180,6 +190,18 @@ export default function ModulSidebar({ visible, onClose }: Props) {
               );
             })}
 
+            {/* Tema */}
+            <Pressable
+              onPress={openTheme}
+              accessibilityRole="button"
+              accessibilityLabel={strings.sidebar.theme}
+            >
+              <ModulView row alignCenter gap12 p12 roundedLg>
+                <ModulIcon icon={PaletteIcon} color={colors.textSecondary} />
+                <ModulText>{strings.sidebar.theme}</ModulText>
+              </ModulView>
+            </Pressable>
+
             {/* Cerrar sesión */}
             <Pressable
               onPress={handleSignOut}
@@ -210,5 +232,7 @@ export default function ModulSidebar({ visible, onClose }: Props) {
         </Animated.View>
       </ModulView>
     </Modal>
+      <ModulThemeModal visible={themeOpen} onClose={() => setThemeOpen(false)} />
+    </>
   );
 }
