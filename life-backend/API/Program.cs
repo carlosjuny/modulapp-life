@@ -3,6 +3,7 @@ using API.Authorization;
 using API.Endpoints;
 using Application.Abstractions;
 using API.Middleware;
+using Application.Account;
 using Application.Auth;
 using Application.EventsLog;
 using Application.Households;
@@ -72,6 +73,7 @@ builder.Services.AddPersistence(connectionString);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<EventLogService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<HouseholdService>();
 
 var jwt = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>() ?? new JwtOptions();

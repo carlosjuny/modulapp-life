@@ -78,6 +78,12 @@ erDiagram
 - `users` no guarda contraseña: la autenticación (LIF-22) agregará lo que necesite en su propia migración.
 - Aislamiento por hogar: las entidades con `HouseholdId` implementan `IHouseholdScoped` y se consultan con
   `.ForHousehold(householdId)` (`Persistence/HouseholdScopeExtensions.cs`).
+- Borrado de cuenta (LIF-36, `DELETE /me`): la fila de `users` se conserva anonimizada (correo
+  `deleted-<id>@deleted.invalid`, nombre "Usuario eliminado", sin avatar ni hogar activo) porque `households.CreatedByUserId`
+  y `events_log.ActorUserId` impiden el borrado físico. Se eliminan credenciales, logins externos y refresh tokens. En cada hogar
+  del usuario: si hay otro administrador solo sale; si era el único administrador, la administración pasa al miembro activo
+  más antiguo; si era el único miembro, se elimina el hogar. El access token ya emitido sigue siendo válido hasta 15 minutos
+  (`Jwt:AccessTokenMinutes`), pero las rutas de hogar ya lo rechazan por la pertenencia.
 - Fuera de alcance: `tasks`, `lists`, `events`, `reminders`, `notes` y `events_log`.
 
 ## Migración y datos de prueba
