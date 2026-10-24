@@ -8,7 +8,7 @@ public static class ApiEndpoints
 {
     public static IEndpointRouteBuilder MapApiEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGroup("/auth").WithTags("Auth");
+        app.MapGroup("/auth").WithTags("Auth").MapAuthEndpoints();
         app.MapGroup("/me").WithTags("Me");
 
         var households = app.MapGroup("/households").WithTags("Households");

@@ -11,6 +11,7 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
         services.AddScoped<IEventLogStore, EventLogStore>();
+        services.AddScoped<IAuthStore, AuthStore>();
 
         return services;
     }

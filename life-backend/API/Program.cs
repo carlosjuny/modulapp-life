@@ -1,7 +1,13 @@
+using System.Text;
 using API.Endpoints;
 using API.Middleware;
+using Application.Auth;
 using Application.EventsLog;
+using Infrastructure;
+using Infrastructure.Auth;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Metrics;
 using Persistence;
 using Serilog;
@@ -59,7 +65,38 @@ if (string.IsNullOrWhiteSpace(connectionString))
 }
 
 builder.Services.AddPersistence(connectionString);
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<EventLogService>();
+builder.Services.AddScoped<AuthService>();
+
+var jwt = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>() ?? new JwtOptions();
+if (Encoding.UTF8.GetByteCount(jwt.SigningKey) < JwtOptions.MinSigningKeyLength
+    || string.IsNullOrWhiteSpace(jwt.Issuer)
+    || string.IsNullOrWhiteSpace(jwt.Audience))
+{
+    throw new InvalidOperationException(
+        $"Falta Jwt:SigningKey (mínimo {JwtOptions.MinSigningKeyLength} caracteres), Jwt:Issuer o Jwt:Audience. Configuralos con user-secrets, variables de entorno o appsettings.Development.local.json.");
+}
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.MapInboundClaims = false;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidIssuer = jwt.Issuer,
+            ValidAudience = jwt.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SigningKey)),
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.FromSeconds(30),
+            NameClaimType = System.Security.Claims.ClaimTypes.NameIdentifier
+        };
+    });
+builder.Services.AddAuthorization();
 builder.Services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -111,6 +148,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors(corsPolicyName);
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapHealthChecks("/health");
 

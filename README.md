@@ -72,11 +72,24 @@ La API queda en `http://localhost:5187` (`/health`, `/swagger`). El frontend se 
 | `Database__MigrateOnStartup` | `true` | opcional | ignorada (las migraciones se aplican en el despliegue) |
 | `Database__SeedOnStartup` | opcional | ignorada | ignorada |
 | `Sentry__Dsn` | vacío (desactivado) | secreto del entorno | secreto del entorno |
+| `Jwt__SigningKey` (mínimo 32 caracteres) | user-secrets / `.env` | secreto del entorno | secreto del entorno |
+| `Jwt__Issuer` / `Jwt__Audience` / `Jwt__AccessTokenMinutes` | valores por defecto de `appsettings.json` | idem | idem |
 | `Observability__MetricsEnabled` | `true` | `true` | `true` (restringir `/metrics` a red interna) |
 | `EXPO_PUBLIC_API_URL` / `EXPO_PUBLIC_APP_ENV` | local | URL de staging / `staging` | URL de producción / `production` |
 
 Los secretos van siempre por variables de entorno (o user-secrets en local); `.env*` está ignorado por git y solo se
 versionan los `.env.example`.
+
+La API exige `Jwt:SigningKey` (mínimo 32 caracteres) y no arranca sin ella; `dotnet ef` también la necesita porque
+carga `Program.cs`. En local se guarda con user-secrets (nunca se versiona):
+
+```bash
+cd life-backend/API
+dotnet user-secrets set "Jwt:SigningKey" "<clave de al menos 32 caracteres>"
+```
+
+Con Docker Compose se define `JWT_SIGNING_KEY` en el `.env`. Para generar una clave aleatoria:
+`openssl rand -base64 48`.
 
 ### 1. Base de datos
 

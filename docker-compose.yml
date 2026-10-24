@@ -29,6 +29,7 @@ services:
       Database__MigrateOnStartup: ${DATABASE_MIGRATE_ON_STARTUP:-true}
       Database__SeedOnStartup: ${DATABASE_SEED_ON_STARTUP:-false}
       Sentry__Dsn: ${SENTRY_DSN:-}
+      Jwt__SigningKey: ${JWT_SIGNING_KEY:?Define JWT_SIGNING_KEY en .env (mínimo 32 caracteres)}
       Cors__AllowedOrigins__0: ${CORS_ORIGIN_0:-http://localhost:8081}
       Cors__AllowedOrigins__1: ${CORS_ORIGIN_1:-http://localhost:19006}
     ports:
