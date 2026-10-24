@@ -88,4 +88,42 @@ public class AuthEndpointsTests : IClassFixture<AuthApiFactory>
         Assert.Equal(HttpStatusCode.Unauthorized, withoutToken.StatusCode);
         Assert.Equal(HttpStatusCode.Forbidden, withToken.StatusCode);
     }
+
+    [Fact]
+    public async Task Refresh_ConTokenValido_RenuevaYElTokenAnteriorQuedaRechazado()
+    {
+        var register = await _client.PostAsJsonAsync("/auth/register", new { email = NewEmail(), password = "clave1234", name = "Ana" });
+        var refreshToken = (await ReadAsync(register)).GetProperty("refreshToken").GetString();
+
+        var renewed = await _client.PostAsJsonAsync("/auth/refresh", new { refreshToken });
+        var reused = await _client.PostAsJsonAsync("/auth/refresh", new { refreshToken });
+
+        Assert.Equal(HttpStatusCode.OK, renewed.StatusCode);
+        var body = await ReadAsync(renewed);
+        Assert.False(string.IsNullOrEmpty(body.GetProperty("accessToken").GetString()));
+        Assert.NotEqual(refreshToken, body.GetProperty("refreshToken").GetString());
+        Assert.Equal(HttpStatusCode.Unauthorized, reused.StatusCode);
+    }
+
+    [Fact]
+    public async Task Logout_ConRefreshToken_LoRevocaYDevuelve204()
+    {
+        var register = await _client.PostAsJsonAsync("/auth/register", new { email = NewEmail(), password = "clave1234", name = "Ana" });
+        var refreshToken = (await ReadAsync(register)).GetProperty("refreshToken").GetString();
+
+        var logout = await _client.PostAsJsonAsync("/auth/logout", new { refreshToken });
+        var refresh = await _client.PostAsJsonAsync("/auth/refresh", new { refreshToken });
+
+        Assert.Equal(HttpStatusCode.NoContent, logout.StatusCode);
+        Assert.Equal(HttpStatusCode.Unauthorized, refresh.StatusCode);
+    }
+
+    [Fact]
+    public async Task Refresh_ConTokenInexistente_Devuelve401SinRevelarElMotivo()
+    {
+        var response = await _client.PostAsJsonAsync("/auth/refresh", new { refreshToken = "token-inexistente" });
+
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        Assert.DoesNotContain("revoc", await response.Content.ReadAsStringAsync(), StringComparison.OrdinalIgnoreCase);
+    }
 }

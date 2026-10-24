@@ -3,9 +3,10 @@ using Domain.Entities;
 
 namespace Application.Auth;
 
-public class AuthService(IAuthStore store, IPasswordHasher passwordHasher, ITokenService tokenService)
+public class AuthService(IAuthStore store, IPasswordHasher passwordHasher, ITokenService tokenService, TimeProvider clock)
 {
     private const string InvalidCredentialsMessage = "Correo o contraseña incorrectos.";
+    private const string InvalidRefreshTokenMessage = "La sesión no es válida.";
     private const string RegistrationFailedMessage = "No se pudo completar el registro.";
 
     public async Task<AuthResult> RegisterAsync(string? email, string? password, string? name, CancellationToken cancellationToken = default)
@@ -37,9 +38,10 @@ public class AuthService(IAuthStore store, IPasswordHasher passwordHasher, IToke
         var user = new User { Email = normalizedEmail, Name = trimmedName };
         store.Add(user);
         store.Add(new UserCredential { User = user, PasswordHash = passwordHasher.Hash(password!) });
+        var tokens = IssueTokens(user);
         await store.SaveChangesAsync(cancellationToken);
 
-        return AuthResult.Success(IssueToken(user));
+        return AuthResult.Success(tokens);
     }
 
     public async Task<AuthResult> LoginAsync(string? email, string? password, CancellationToken cancellationToken = default)
@@ -56,13 +58,84 @@ public class AuthService(IAuthStore store, IPasswordHasher passwordHasher, IToke
             return AuthResult.Fail(AuthStatus.InvalidCredentials, InvalidCredentialsMessage);
         }
 
-        return AuthResult.Success(IssueToken(user));
+        var tokens = IssueTokens(user);
+        await store.SaveChangesAsync(cancellationToken);
+
+        return AuthResult.Success(tokens);
     }
 
-    private AuthTokens IssueToken(User user)
+    public async Task<AuthResult> RefreshAsync(string? refreshToken, CancellationToken cancellationToken = default)
+    {
+        var stored = await FindRefreshTokenAsync(refreshToken, cancellationToken);
+        if (stored is null)
+        {
+            return InvalidRefreshToken();
+        }
+
+        var now = clock.GetUtcNow().UtcDateTime;
+
+        if (stored.ReplacedByTokenId is not null)
+        {
+            // Un token ya rotado se presentó de nuevo: se asume robo y se cierran todas las sesiones del usuario.
+            await store.RevokeActiveRefreshTokensAsync(stored.UserId, now, cancellationToken);
+            await store.SaveChangesAsync(cancellationToken);
+
+            return InvalidRefreshToken();
+        }
+
+        if (stored.RevokedAt is not null || stored.ExpiresAt <= now)
+        {
+            return InvalidRefreshToken();
+        }
+
+        var user = await store.FindUserByIdAsync(stored.UserId, cancellationToken);
+        if (user is null)
+        {
+            return InvalidRefreshToken();
+        }
+
+        var tokens = IssueTokens(user, out var replacement);
+        stored.RevokedAt = now;
+        stored.ReplacedByTokenId = replacement.Id;
+
+        // Si dos solicitudes rotan el mismo token a la vez, solo una guarda; la otra se rechaza.
+        if (!await store.TrySaveChangesAsync(cancellationToken))
+        {
+            return InvalidRefreshToken();
+        }
+
+        return AuthResult.Success(tokens);
+    }
+
+    public async Task LogoutAsync(string? refreshToken, CancellationToken cancellationToken = default)
+    {
+        var stored = await FindRefreshTokenAsync(refreshToken, cancellationToken);
+        if (stored is null || stored.RevokedAt is not null)
+        {
+            return;
+        }
+
+        stored.RevokedAt = clock.GetUtcNow().UtcDateTime;
+        await store.TrySaveChangesAsync(cancellationToken);
+    }
+
+    private Task<RefreshToken?> FindRefreshTokenAsync(string? refreshToken, CancellationToken cancellationToken)
+        => string.IsNullOrWhiteSpace(refreshToken)
+            ? Task.FromResult<RefreshToken?>(null)
+            : store.FindRefreshTokenAsync(tokenService.HashRefreshToken(refreshToken), cancellationToken);
+
+    private static AuthResult InvalidRefreshToken() => AuthResult.Fail(AuthStatus.InvalidRefreshToken, InvalidRefreshTokenMessage);
+
+    private AuthTokens IssueTokens(User user) => IssueTokens(user, out _);
+
+    private AuthTokens IssueTokens(User user, out RefreshToken refreshEntity)
     {
         var access = tokenService.CreateAccessToken(user);
+        var refresh = tokenService.CreateRefreshToken();
 
-        return new AuthTokens(access.Value, access.ExpiresAt, new AuthUser(user.Id, user.Email, user.Name));
+        refreshEntity = new RefreshToken { User = user, TokenHash = refresh.Hash, ExpiresAt = refresh.ExpiresAt };
+        store.Add(refreshEntity);
+
+        return new AuthTokens(access.Value, access.ExpiresAt, new AuthUser(user.Id, user.Email, user.Name), refresh.Value, refresh.ExpiresAt);
     }
 }

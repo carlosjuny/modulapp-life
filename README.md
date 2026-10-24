@@ -73,7 +73,7 @@ La API queda en `http://localhost:5187` (`/health`, `/swagger`). El frontend se 
 | `Database__SeedOnStartup` | opcional | ignorada | ignorada |
 | `Sentry__Dsn` | vacío (desactivado) | secreto del entorno | secreto del entorno |
 | `Jwt__SigningKey` (mínimo 32 caracteres) | user-secrets / `.env` | secreto del entorno | secreto del entorno |
-| `Jwt__Issuer` / `Jwt__Audience` / `Jwt__AccessTokenMinutes` | valores por defecto de `appsettings.json` | idem | idem |
+| `Jwt__Issuer` / `Jwt__Audience` / `Jwt__AccessTokenMinutes` / `Jwt__RefreshTokenDays` (30 por defecto) | valores por defecto de `appsettings.json` | idem | idem |
 | `Observability__MetricsEnabled` | `true` | `true` | `true` (restringir `/metrics` a red interna) |
 | `EXPO_PUBLIC_API_URL` / `EXPO_PUBLIC_APP_ENV` | local | URL de staging / `staging` | URL de producción / `production` |
 

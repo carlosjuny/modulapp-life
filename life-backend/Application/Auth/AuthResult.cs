@@ -5,12 +5,13 @@ public enum AuthStatus
     Success,
     ValidationFailed,
     RegistrationFailed,
-    InvalidCredentials
+    InvalidCredentials,
+    InvalidRefreshToken
 }
 
 public record AuthUser(Guid Id, string Email, string Name);
 
-public record AuthTokens(string AccessToken, DateTime AccessTokenExpiresAt, AuthUser User);
+public record AuthTokens(string AccessToken, DateTime AccessTokenExpiresAt, AuthUser User, string RefreshToken, DateTime RefreshTokenExpiresAt);
 
 public record AuthResult(AuthStatus Status, AuthTokens? Tokens = null, string? Error = null)
 {

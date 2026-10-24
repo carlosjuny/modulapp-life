@@ -55,6 +55,22 @@ public class JwtTokenServiceTests
     }
 
     [Fact]
+    public void CreateRefreshToken_GeneraTokensDistintosConHashYVencimientoPorConfiguracion()
+    {
+        var clock = new FakeClock();
+        var options = new JwtOptions { Issuer = Options.Issuer, Audience = Options.Audience, SigningKey = Options.SigningKey, RefreshTokenDays = 7 };
+        var service = new JwtTokenService(Microsoft.Extensions.Options.Options.Create(options), clock);
+
+        var first = service.CreateRefreshToken();
+        var second = service.CreateRefreshToken();
+
+        Assert.NotEqual(first.Value, second.Value);
+        Assert.NotEqual(first.Value, first.Hash);
+        Assert.Equal(first.Hash, service.HashRefreshToken(first.Value));
+        Assert.Equal(clock.Now.UtcDateTime.AddDays(7), first.ExpiresAt);
+    }
+
+    [Fact]
     public async Task CreateAccessToken_ValidadoConOtraClave_EsRechazado()
     {
         var service = new JwtTokenService(Microsoft.Extensions.Options.Options.Create(Options), new FakeClock());

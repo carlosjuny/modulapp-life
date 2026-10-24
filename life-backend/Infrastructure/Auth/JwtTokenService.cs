@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Application.Abstractions;
 using Domain.Entities;
@@ -10,6 +11,8 @@ namespace Infrastructure.Auth;
 
 public class JwtTokenService(IOptions<JwtOptions> options, TimeProvider clock) : ITokenService
 {
+    private const int RefreshTokenBytes = 64;
+
     private readonly JwtOptions _options = options.Value;
 
     public AccessToken CreateAccessToken(User user)
@@ -34,4 +37,15 @@ public class JwtTokenService(IOptions<JwtOptions> options, TimeProvider clock) :
 
         return new AccessToken(new JsonWebTokenHandler().CreateToken(descriptor), expiresAt);
     }
+
+    public NewRefreshToken CreateRefreshToken()
+    {
+        var value = Base64UrlEncoder.Encode(RandomNumberGenerator.GetBytes(RefreshTokenBytes));
+        var expiresAt = clock.GetUtcNow().UtcDateTime.AddDays(_options.RefreshTokenDays);
+
+        return new NewRefreshToken(value, HashRefreshToken(value), expiresAt);
+    }
+
+    public string HashRefreshToken(string refreshToken)
+        => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(refreshToken)));
 }
