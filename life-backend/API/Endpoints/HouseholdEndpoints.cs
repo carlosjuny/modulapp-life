@@ -1,5 +1,7 @@
 using System.Security.Claims;
+using API.Authorization;
 using Application.Households;
+using Domain.Enums;
 
 namespace API.Endpoints;
 
@@ -11,16 +13,26 @@ public static class HouseholdEndpoints
 
     public record TransferAdminRequest(Guid UserId);
 
+    public record ChangeRoleRequest(string? Role);
+
+    public record SetModuleRequest(bool IsActive);
+
+    public record ChangePlanRequest(string? Plan);
+
     public static RouteGroupBuilder MapHouseholdEndpoints(this RouteGroupBuilder households)
     {
         households.MapPost("/", CreateAsync);
         households.MapGet("/", ListMineAsync);
         households.MapPut("/active", SetActiveAsync);
-        households.MapPost("/{householdId:guid}/invites", CreateInvitationAsync);
-        households.MapGet("/{householdId:guid}/members", ListMembersAsync);
-        households.MapDelete("/{householdId:guid}/members/{userId:guid}", RemoveMemberAsync);
-        households.MapPost("/{householdId:guid}/leave", LeaveAsync);
-        households.MapPost("/{householdId:guid}/transfer-admin", TransferAdminAsync);
+        households.MapPost("/{householdId:guid}/invites", CreateInvitationAsync).RequireAuthorization(HouseholdAccessRequirement.AdminPolicy);
+        households.MapGet("/{householdId:guid}/members", ListMembersAsync).RequireAuthorization(HouseholdAccessRequirement.MemberPolicy);
+        households.MapDelete("/{householdId:guid}/members/{userId:guid}", RemoveMemberAsync).RequireAuthorization(HouseholdAccessRequirement.AdminPolicy);
+        households.MapPut("/{householdId:guid}/members/{userId:guid}/role", ChangeRoleAsync).RequireAuthorization(HouseholdAccessRequirement.AdminPolicy);
+        households.MapPost("/{householdId:guid}/leave", LeaveAsync).RequireAuthorization(HouseholdAccessRequirement.MemberPolicy);
+        households.MapPost("/{householdId:guid}/transfer-admin", TransferAdminAsync).RequireAuthorization(HouseholdAccessRequirement.AdminPolicy);
+        households.MapGet("/{householdId:guid}/modules", ListModulesAsync).RequireAuthorization(HouseholdAccessRequirement.MemberPolicy);
+        households.MapPut("/{householdId:guid}/modules/{moduleKey}", SetModuleAsync).RequireAuthorization(HouseholdAccessRequirement.AdminPolicy);
+        households.MapPut("/{householdId:guid}/subscription", ChangePlanAsync).RequireAuthorization(HouseholdAccessRequirement.AdminPolicy);
 
         return households;
     }
@@ -64,6 +76,20 @@ public static class HouseholdEndpoints
 
     private static Task<IResult> TransferAdminAsync(Guid householdId, TransferAdminRequest request, ClaimsPrincipal user, HouseholdService service, CancellationToken cancellationToken)
         => WithUser(user, async id => ToNoContent(await service.TransferAdminAsync(id, householdId, request.UserId, cancellationToken)));
+
+    private static Task<IResult> ChangeRoleAsync(Guid householdId, Guid userId, ChangeRoleRequest request, ClaimsPrincipal user, HouseholdService service, CancellationToken cancellationToken)
+        => WithUser(user, async id => Enum.TryParse<MembershipRole>(request.Role, ignoreCase: true, out var role) && Enum.IsDefined(role)
+            ? ToNoContent(await service.ChangeRoleAsync(id, householdId, userId, role, cancellationToken))
+            : Results.Problem(statusCode: StatusCodes.Status400BadRequest, title: "El rol debe ser Admin o Member."));
+
+    private static Task<IResult> ListModulesAsync(Guid householdId, ClaimsPrincipal user, HouseholdService service, CancellationToken cancellationToken)
+        => WithUser(user, async id => ToResult(await service.ListModulesAsync(id, householdId, cancellationToken)));
+
+    private static Task<IResult> SetModuleAsync(Guid householdId, string moduleKey, SetModuleRequest request, ClaimsPrincipal user, HouseholdService service, CancellationToken cancellationToken)
+        => WithUser(user, async id => ToResult(await service.SetModuleActiveAsync(id, householdId, moduleKey, request.IsActive, cancellationToken)));
+
+    private static Task<IResult> ChangePlanAsync(Guid householdId, ChangePlanRequest request, ClaimsPrincipal user, HouseholdService service, CancellationToken cancellationToken)
+        => WithUser(user, async id => ToResult(await service.ChangePlanAsync(id, householdId, request.Plan, cancellationToken)));
 
     private static Task<IResult> WithUser(ClaimsPrincipal user, Func<Guid, Task<IResult>> action)
         => Guid.TryParse(user.FindFirstValue(ClaimTypes.NameIdentifier), out var userId)

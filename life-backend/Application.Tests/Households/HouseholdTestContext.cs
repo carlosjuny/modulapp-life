@@ -62,6 +62,10 @@ public class FakeHouseholdStore : IHouseholdStore
 
     public List<Invitation> Invitations { get; } = [];
 
+    public List<ModuleActivation> Modules { get; } = [];
+
+    public List<Subscription> Subscriptions { get; } = [];
+
     public Task<User?> FindUserAsync(Guid userId, CancellationToken cancellationToken)
         => Task.FromResult(Users.FirstOrDefault(u => u.Id == userId));
 
@@ -87,6 +91,15 @@ public class FakeHouseholdStore : IHouseholdStore
         => Task.FromResult(Memberships.Count(m => m.HouseholdId == householdId
             && m.Status == MembershipStatus.Active
             && m.Role is MembershipRole.Admin or MembershipRole.Owner));
+
+    public Task<IReadOnlyList<ModuleActivation>> ListModulesAsync(Guid householdId, CancellationToken cancellationToken)
+        => Task.FromResult<IReadOnlyList<ModuleActivation>>(Modules.Where(m => m.HouseholdId == householdId).ToList());
+
+    public Task<ModuleActivation?> FindModuleAsync(Guid householdId, string moduleKey, CancellationToken cancellationToken)
+        => Task.FromResult(Modules.FirstOrDefault(m => m.HouseholdId == householdId && m.ModuleKey == moduleKey));
+
+    public Task<Subscription?> FindSubscriptionAsync(Guid householdId, CancellationToken cancellationToken)
+        => Task.FromResult(Subscriptions.FirstOrDefault(s => s.HouseholdId == householdId));
 
     public Task<Invitation?> FindInvitationAsync(string code, CancellationToken cancellationToken)
     {
@@ -116,6 +129,12 @@ public class FakeHouseholdStore : IHouseholdStore
             case Membership membership:
                 membership.Household ??= Households.FirstOrDefault(h => h.Id == membership.HouseholdId);
                 Memberships.Add(membership);
+                break;
+            case ModuleActivation module:
+                Modules.Add(module);
+                break;
+            case Subscription subscription:
+                Subscriptions.Add(subscription);
                 break;
             case Invitation invitation:
                 Invitations.Add(invitation);

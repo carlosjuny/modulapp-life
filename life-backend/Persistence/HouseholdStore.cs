@@ -39,6 +39,23 @@ public class HouseholdStore(ApplicationDbContext db) : IHouseholdStore
             .CountAsync(m => m.Status == MembershipStatus.Active
                 && (m.Role == MembershipRole.Admin || m.Role == MembershipRole.Owner), cancellationToken);
 
+    public async Task<IReadOnlyList<ModuleActivation>> ListModulesAsync(Guid householdId, CancellationToken cancellationToken)
+        => await db.ModuleActivations
+            .AsNoTracking()
+            .ForHousehold(householdId)
+            .OrderBy(m => m.ModuleKey)
+            .ToListAsync(cancellationToken);
+
+    public Task<ModuleActivation?> FindModuleAsync(Guid householdId, string moduleKey, CancellationToken cancellationToken)
+        => db.ModuleActivations
+            .ForHousehold(householdId)
+            .FirstOrDefaultAsync(m => m.ModuleKey == moduleKey, cancellationToken);
+
+    public Task<Subscription?> FindSubscriptionAsync(Guid householdId, CancellationToken cancellationToken)
+        => db.Subscriptions
+            .ForHousehold(householdId)
+            .FirstOrDefaultAsync(cancellationToken);
+
     public Task<Invitation?> FindInvitationAsync(string code, CancellationToken cancellationToken)
         => db.Invitations.Include(i => i.Household).FirstOrDefaultAsync(i => i.Code == code, cancellationToken);
 

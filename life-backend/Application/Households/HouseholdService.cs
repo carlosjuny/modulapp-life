@@ -9,6 +9,8 @@ namespace Application.Households;
 public class HouseholdService(IHouseholdStore store, EventLogService eventLog, TimeProvider clock)
 {
     public const int MaxNameLength = 150;
+    public const int MaxModuleKeyLength = 50;
+    public const int MaxPlanLength = 50;
     public static readonly TimeSpan InvitationLifetime = TimeSpan.FromDays(7);
 
     private const string InvalidInvitationMessage = "El código de invitación no es válido, expiró o ya fue usado.";
@@ -244,6 +246,131 @@ public class HouseholdService(IHouseholdStore store, EventLogService eventLog, T
             new Dictionary<string, string?> { ["userId"] = targetUserId.ToString(), ["role"] = nameof(MembershipRole.Admin) }, cancellationToken);
 
         return HouseholdResult<Unit>.Success(Unit.Value);
+    }
+
+    public async Task<HouseholdResult<Unit>> ChangeRoleAsync(Guid userId, Guid householdId, Guid targetUserId, MembershipRole role, CancellationToken cancellationToken = default)
+    {
+        var denied = await RequireAdminAsync<Unit>(userId, householdId, cancellationToken);
+        if (denied is not null)
+        {
+            return denied;
+        }
+
+        if (role is not (MembershipRole.Admin or MembershipRole.Member))
+        {
+            return HouseholdResult<Unit>.Fail(HouseholdStatus.ValidationFailed, "El rol debe ser Admin o Member.");
+        }
+
+        var target = await ActiveMembershipAsync(targetUserId, householdId, cancellationToken);
+        if (target is null)
+        {
+            return HouseholdResult<Unit>.Fail(HouseholdStatus.NotFound, TargetNotMemberMessage);
+        }
+
+        if (role == MembershipRole.Member && IsAdmin(target) && await store.CountActiveAdminsAsync(householdId, cancellationToken) <= 1)
+        {
+            return HouseholdResult<Unit>.Fail(HouseholdStatus.Conflict, "El hogar debe conservar al menos un administrador.");
+        }
+
+        if (target.Role == role)
+        {
+            return HouseholdResult<Unit>.Success(Unit.Value);
+        }
+
+        target.Role = role;
+        await store.SaveChangesAsync(cancellationToken);
+        await eventLog.RecordAsync(householdId, userId, EventLogType.RoleChanged,
+            new Dictionary<string, string?> { ["userId"] = targetUserId.ToString(), ["role"] = role.ToString() }, cancellationToken);
+
+        return HouseholdResult<Unit>.Success(Unit.Value);
+    }
+
+    public async Task<HouseholdResult<IReadOnlyList<ModuleSummary>>> ListModulesAsync(Guid userId, Guid householdId, CancellationToken cancellationToken = default)
+    {
+        if (await ActiveMembershipAsync(userId, householdId, cancellationToken) is null)
+        {
+            return HouseholdResult<IReadOnlyList<ModuleSummary>>.Fail(HouseholdStatus.Forbidden, NotMemberMessage);
+        }
+
+        var modules = await store.ListModulesAsync(householdId, cancellationToken);
+        IReadOnlyList<ModuleSummary> items = modules.Select(m => new ModuleSummary(m.ModuleKey, m.IsActive)).ToList();
+
+        return HouseholdResult<IReadOnlyList<ModuleSummary>>.Success(items);
+    }
+
+    public async Task<HouseholdResult<ModuleSummary>> SetModuleActiveAsync(Guid userId, Guid householdId, string? moduleKey, bool isActive, CancellationToken cancellationToken = default)
+    {
+        var denied = await RequireAdminAsync<ModuleSummary>(userId, householdId, cancellationToken);
+        if (denied is not null)
+        {
+            return denied;
+        }
+
+        var key = (moduleKey ?? string.Empty).Trim().ToLowerInvariant();
+        if (key.Length is 0 or > MaxModuleKeyLength)
+        {
+            return HouseholdResult<ModuleSummary>.Fail(HouseholdStatus.ValidationFailed, $"La clave del módulo es obligatoria y no puede superar {MaxModuleKeyLength} caracteres.");
+        }
+
+        var module = await store.FindModuleAsync(householdId, key, cancellationToken);
+        if (module is null)
+        {
+            module = new ModuleActivation { HouseholdId = householdId, ModuleKey = key };
+            store.Add(module);
+        }
+
+        var changed = module.IsActive != isActive;
+        module.IsActive = isActive;
+        module.ActivatedAt = isActive ? module.ActivatedAt ?? clock.GetUtcNow().UtcDateTime : null;
+        await store.SaveChangesAsync(cancellationToken);
+
+        if (changed && isActive)
+        {
+            await eventLog.RecordAsync(householdId, userId, EventLogType.ModuleActivated,
+                new Dictionary<string, string?> { ["module"] = key }, cancellationToken);
+        }
+
+        return HouseholdResult<ModuleSummary>.Success(new ModuleSummary(key, isActive));
+    }
+
+    public async Task<HouseholdResult<PlanSummary>> ChangePlanAsync(Guid userId, Guid householdId, string? plan, CancellationToken cancellationToken = default)
+    {
+        var denied = await RequireAdminAsync<PlanSummary>(userId, householdId, cancellationToken);
+        if (denied is not null)
+        {
+            return denied;
+        }
+
+        var trimmed = (plan ?? string.Empty).Trim().ToLowerInvariant();
+        if (trimmed.Length is 0 or > MaxPlanLength)
+        {
+            return HouseholdResult<PlanSummary>.Fail(HouseholdStatus.ValidationFailed, $"El plan es obligatorio y no puede superar {MaxPlanLength} caracteres.");
+        }
+
+        var household = (await store.FindMembershipAsync(userId, householdId, cancellationToken))!.Household!;
+        var subscription = await store.FindSubscriptionAsync(householdId, cancellationToken);
+        if (subscription is null)
+        {
+            subscription = new Subscription { HouseholdId = householdId };
+            store.Add(subscription);
+        }
+
+        household.Plan = trimmed;
+        subscription.Plan = trimmed;
+        await store.SaveChangesAsync(cancellationToken);
+
+        return HouseholdResult<PlanSummary>.Success(new PlanSummary(householdId, trimmed));
+    }
+
+    private async Task<HouseholdResult<T>?> RequireAdminAsync<T>(Guid userId, Guid householdId, CancellationToken cancellationToken)
+    {
+        var membership = await ActiveMembershipAsync(userId, householdId, cancellationToken);
+        if (membership is null)
+        {
+            return HouseholdResult<T>.Fail(HouseholdStatus.Forbidden, NotMemberMessage);
+        }
+
+        return IsAdmin(membership) ? null : HouseholdResult<T>.Fail(HouseholdStatus.Forbidden, AdminOnlyMessage);
     }
 
     private async Task<Membership?> ActiveMembershipAsync(Guid userId, Guid householdId, CancellationToken cancellationToken)

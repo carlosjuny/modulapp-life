@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using API.Authorization;
 using Application.EventsLog;
 using Domain.Enums;
 
@@ -15,7 +16,7 @@ public static class ApiEndpoints
 
         var households = app.MapGroup("/households").WithTags("Households").RequireAuthorization();
         households.MapHouseholdEndpoints();
-        households.MapGet("/{householdId:guid}/events-log", GetEventsLogAsync);
+        households.MapGet("/{householdId:guid}/events-log", GetEventsLogAsync).RequireAuthorization(HouseholdAccessRequirement.AdminPolicy);
 
         return app;
     }

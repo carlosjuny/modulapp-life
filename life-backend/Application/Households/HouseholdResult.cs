@@ -23,6 +23,10 @@ public record HouseholdSummary(Guid Id, string Name, string Role, bool IsActive)
 
 public record MemberSummary(Guid UserId, string Name, string Email, string Role, DateTime JoinedAt);
 
+public record ModuleSummary(string ModuleKey, bool IsActive);
+
+public record PlanSummary(Guid HouseholdId, string Plan);
+
 public record InvitationSummary(Guid HouseholdId, string Code, DateTime ExpiresAt);
 
 public record Unit

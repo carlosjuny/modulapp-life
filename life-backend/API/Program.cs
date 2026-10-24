@@ -1,5 +1,7 @@
 using System.Text;
+using API.Authorization;
 using API.Endpoints;
+using Application.Abstractions;
 using API.Middleware;
 using Application.Auth;
 using Application.EventsLog;
@@ -7,6 +9,7 @@ using Application.Households;
 using Infrastructure;
 using Infrastructure.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Metrics;
@@ -98,7 +101,12 @@ builder.Services
             NameClaimType = System.Security.Claims.ClaimTypes.NameIdentifier
         };
     });
-builder.Services.AddAuthorization();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentHousehold, RouteCurrentHousehold>();
+builder.Services.AddScoped<IAuthorizationHandler, HouseholdAccessHandler>();
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy(HouseholdAccessRequirement.MemberPolicy, policy => policy.RequireAuthenticatedUser().AddRequirements(new HouseholdAccessRequirement(adminOnly: false)))
+    .AddPolicy(HouseholdAccessRequirement.AdminPolicy, policy => policy.RequireAuthenticatedUser().AddRequirements(new HouseholdAccessRequirement(adminOnly: true)));
 builder.Services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();

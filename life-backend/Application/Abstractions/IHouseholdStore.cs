@@ -14,6 +14,12 @@ public interface IHouseholdStore
 
     Task<int> CountActiveAdminsAsync(Guid householdId, CancellationToken cancellationToken);
 
+    Task<IReadOnlyList<ModuleActivation>> ListModulesAsync(Guid householdId, CancellationToken cancellationToken);
+
+    Task<ModuleActivation?> FindModuleAsync(Guid householdId, string moduleKey, CancellationToken cancellationToken);
+
+    Task<Subscription?> FindSubscriptionAsync(Guid householdId, CancellationToken cancellationToken);
+
     Task<Invitation?> FindInvitationAsync(string code, CancellationToken cancellationToken);
 
     void Add<TEntity>(TEntity entity) where TEntity : class;
