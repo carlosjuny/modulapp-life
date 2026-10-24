@@ -23,14 +23,14 @@ export default function ModulMenu({
   const insets = useSafeAreaInsets();
 
   const tabs = [
-    { routeName: 'home', label: 'Inicio' },
-    { routeName: 'mailbox', label: 'Buzon' },
-    { routeName: 'planer', label: 'Agenda' },
-    { routeName: 'moduls', label: 'Módulos' },
+    { routeName: 'home' },
+    { routeName: 'mailbox' },
+    { routeName: 'planer' },
+    { routeName: 'moduls' },
   ];
 
   const getIcon = (routeName: string, color: string) => {
-    const props = { size: 22, color };
+    const props = { size: 26, color };
 
     switch (routeName) {
       case 'home':
@@ -97,9 +97,6 @@ export default function ModulMenu({
             key={route.key}
             accessibilityRole="tab"
             accessibilityState={{ selected: isFocused }}
-            accessibilityLabel={
-              options.tabBarAccessibilityLabel ?? tab.label
-            }
             testID={options.tabBarButtonTestID}
             onPress={onPress}
             onLongPress={onLongPress}
@@ -135,7 +132,6 @@ export default function ModulMenu({
                 { color: iconColor },
               ]}
             >
-              {tab.label}
             </Text>
           </Pressable>
         );

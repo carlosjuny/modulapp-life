@@ -1,19 +1,32 @@
-import {Text } from "react-native";
-import { useTheme } from "../../context/ThemeContext";
-import ModulView  from "../../components/atoms/ModulView";
-import AppIcon from "../../components/atoms/ModulIcon";
-import ModulLayout from "../../components/atoms/ModulLayout";
-import { HomeIcon } from "@solar-icons/react-native/linear";
+import { useState } from 'react';
 
-export default function Moduls() {
-  const { globalTextStyles } = useTheme();
+import ModulLayout from '../../components/atoms/ModulLayout';
+import ModulView from '../../components/atoms/ModulView';
+import ModulText from '../../components/atoms/ModulText';
+import ModulSidebar from '../../components/organisms/ModulSidebar';
+
+export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
-    <ModulLayout>
-      <ModulView>
-        <Text style={[globalTextStyles.textPrimary]}>
-          <AppIcon icon={HomeIcon} />
+    <ModulLayout
+      header={{
+        title: 'Módulos',
+        leftAction: 'menu',
+        showNotifications: true,
+        onMenuPress: () => setMenuOpen(true),
+        onNotificationsPress: () => {},
+      }}
+    >
+      <ModulSidebar
+        visible={menuOpen}
+        onClose={() => setMenuOpen(false)}
+      />
+
+      <ModulView px12>
+        <ModulText variant="sectionTitle">
           Bienvenido
-        </Text>
+        </ModulText>
       </ModulView>
     </ModulLayout>
   );
