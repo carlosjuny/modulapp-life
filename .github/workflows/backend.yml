@@ -35,7 +35,5 @@ jobs:
       - name: Build
         run: dotnet build life-backend.slnx --configuration Release --no-restore
 
-      # Hoy la solución no tiene proyectos de pruebas; el paso pasa en vacío y
-      # empieza a ejecutar pruebas en cuanto se agregue uno al .slnx.
       - name: Test
         run: dotnet test life-backend.slnx --configuration Release --no-build --verbosity normal

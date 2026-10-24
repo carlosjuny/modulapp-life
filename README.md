@@ -129,10 +129,14 @@ Antes de tocar APIs de Expo o React Native, leer [life-frontend/AGENTS.md](life-
 
 | Proyecto | Comandos |
 |---|---|
-| Backend | `dotnet build` (desde `life-backend/`) |
+| Backend | `dotnet build` y `dotnet test` (desde `life-backend/`) |
 | Frontend | `npx tsc --noEmit` y `npx expo lint` (desde `life-frontend/`) |
 
-Hoy ninguno de los dos proyectos tiene tests automáticos.
+El backend tiene el proyecto de pruebas unitarias `life-backend/Application.Tests` (xUnit + NSubstitute, sin base de datos
+real). Se ejecutan con `dotnet test life-backend.slnx` desde `life-backend/`. Convención: una carpeta por módulo de
+`Application` (por ejemplo `EventsLog/`), una clase `<Clase>Tests` y pruebas con nombre
+`Metodo_Condicion_ResultadoEsperado`, en el formato de 3 partes (preparación, qué se prueba, la prueba) separadas por una
+línea en blanco. El frontend todavía no tiene tests automáticos.
 
 Estas verificaciones también corren en GitHub Actions (`.github/workflows/backend.yml` y `mobile.yml`) en cada pull
 request hacia `review` y `main`, y en push a `dev-backend` / `dev-frontend`. El backend ejecuta `dotnet restore`,
