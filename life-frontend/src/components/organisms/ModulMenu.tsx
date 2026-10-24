@@ -17,7 +17,8 @@ import { useTheme } from '../../context/ThemeContext';
 export default function ModulMenu({
                                     state,
                                     descriptors,
-                                    navigation,
+                                    emitter,
+                                    navigateToTab,
                                   }: BottomTabBarProps) {
   const { colors, globalStyles, globalTextStyles } = useTheme();
   const insets = useSafeAreaInsets();
@@ -74,19 +75,19 @@ export default function ModulMenu({
           : colors.textSecondary;
 
         const onPress = () => {
-          const event = navigation.emit({
+          const event = emitter.emit({
             type: 'tabPress',
             target: route.key,
             canPreventDefault: true,
           });
 
           if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name, route.params);
+            navigateToTab(route.key);
           }
         };
 
         const onLongPress = () => {
-          navigation.emit({
+          emitter.emit({
             type: 'tabLongPress',
             target: route.key,
           });

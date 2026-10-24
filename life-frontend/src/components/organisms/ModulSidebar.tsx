@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Animated, Modal, Pressable, useWindowDimensions } from 'react-native';
+import { ActivityIndicator, Animated, Modal, Pressable, useWindowDimensions } from 'react-native';
 import { usePathname, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useReduceMotion } from '../../hooks/useReduceMotion';
 import {
   SettingsIcon,
   UserCircleIcon,
@@ -10,26 +9,26 @@ import {
   PanelLeftCloseIcon,
 } from '@solar-icons/react-native/linear';
 
+import { useReduceMotion } from '../../hooks/useReduceMotion';
 import { useTheme } from '../../context/ThemeContext';
+import { useAuth } from '../../context/AuthContext';
+import { strings } from '../../constants/strings';
 import ModulView from '../atoms/ModulView';
 import ModulText from '../atoms/ModulText';
 import ModulIcon from '../atoms/ModulIcon';
+import ModulAvatar from '../atoms/ModulAvatar';
 
-// Usuario demo (sin Auth ni API)
-const DEMO_USER = {
-  name: 'Usuario Demo',
-  email: 'demo@modulapp.com',
-};
+const PROFILE_HREF = '/tabs/profile/profile';
 
 const ITEMS = [
-  { label: 'Ajustes de la cuenta', icon: UserCircleIcon, href: '/tabs/account' },
-  { label: 'Configuración de la app', icon: SettingsIcon, href: '/tabs/diagnostico' },
+  { label: strings.sidebar.settings, icon: SettingsIcon, href: '/tabs/settings/settings' },
 ];
 
 type Props = { visible: boolean; onClose: () => void };
 
 export default function ModulSidebar({ visible, onClose }: Props) {
   const { colors } = useTheme();
+  const { user, status, signOut } = useAuth();
   const reduceMotion = useReduceMotion();
   const router = useRouter();
   const pathname = usePathname();
@@ -67,6 +66,15 @@ export default function ModulSidebar({ visible, onClose }: Props) {
     router.push(href as never);
   };
 
+  const handleSignOut = async () => {
+    onClose();
+    await signOut();
+    router.replace('/');
+  };
+
+  const profileName = user?.name ?? strings.sidebar.profileFallbackName;
+  const profileActive = pathname === PROFILE_HREF;
+
   return (
     <Modal
       visible={mounted}
@@ -76,7 +84,10 @@ export default function ModulSidebar({ visible, onClose }: Props) {
     >
       <ModulView flex1 row>
         {/* Panel a la izquierda */}
-        <Animated.View style={{ width: panelWidth, transform: [{ translateX }] }}>
+        <Animated.View
+          accessibilityViewIsModal
+          style={{ width: panelWidth, transform: [{ translateX }] }}
+        >
           <ModulView
             flex1
             bg
@@ -88,11 +99,11 @@ export default function ModulSidebar({ visible, onClose }: Props) {
           >
             {/* Cerrar sidebar */}
             <ModulView row justifyBetween alignCenter mb16>
-              <ModulText variant="sectionTitle">Menú</ModulText>
+              <ModulText variant="sectionTitle">{strings.sidebar.title}</ModulText>
               <Pressable
                 onPress={onClose}
                 accessibilityRole="button"
-                accessibilityLabel="Cerrar menú"
+                accessibilityLabel={strings.sidebar.close}
               >
                 <ModulView p8 roundedLg>
                   <ModulIcon icon={PanelLeftCloseIcon} color={colors.text} />
@@ -102,32 +113,52 @@ export default function ModulSidebar({ visible, onClose }: Props) {
 
             {/* Perfil */}
             <Pressable
-              onPress={() => go('/tabs/profile')}
+              onPress={() => go(PROFILE_HREF)}
               accessibilityRole="button"
-              accessibilityLabel={`Perfil de ${DEMO_USER.name}`}
+              accessibilityLabel={strings.sidebar.profileLabel(profileName)}
+              accessibilityState={{ selected: profileActive }}
             >
-              <ModulView row alignCenter gap12 mb24>
-                <ModulView
-                  bgSurface
-                  roundedFull
-                  alignCenter
-                  justifyCenter
-                  style={{ width: 48, height: 48 }}
-                >
-                  <ModulIcon icon={UserCircleIcon} color={colors.textSecondary} />
-                </ModulView>
-                <ModulView flex1>
-                  <ModulText numberOfLines={1}>{DEMO_USER.name}</ModulText>
-                  <ModulText variant="bodySecondary" numberOfLines={1}>
-                    {DEMO_USER.email}
-                  </ModulText>
-                </ModulView>
+              <ModulView row alignCenter gap12 mb24 p8 roundedLg bgSurface={profileActive}>
+                {status === 'loading' ? (
+                  <>
+                    <ModulView alignCenter justifyCenter style={{ width: 48, height: 48 }}>
+                      <ActivityIndicator color={colors.primary} />
+                    </ModulView>
+                    <ModulView flex1>
+                      <ModulText variant="bodySecondary">
+                        {strings.sidebar.profileLoading}
+                      </ModulText>
+                    </ModulView>
+                  </>
+                ) : (
+                  <>
+                    {user ? (
+                      <ModulAvatar name={user.name} uri={user.photoUri} size="lg" />
+                    ) : (
+                      <ModulView
+                        bgSurface
+                        roundedFull
+                        alignCenter
+                        justifyCenter
+                        style={{ width: 56, height: 56 }}
+                      >
+                        <ModulIcon icon={UserCircleIcon} color={colors.textSecondary} />
+                      </ModulView>
+                    )}
+                    <ModulView flex1>
+                      <ModulText numberOfLines={1}>{profileName}</ModulText>
+                      <ModulText variant="bodySecondary" numberOfLines={1}>
+                        {user ? user.email : strings.sidebar.profileFallbackHint}
+                      </ModulText>
+                    </ModulView>
+                  </>
+                )}
               </ModulView>
             </Pressable>
 
             {/* Entradas */}
             {ITEMS.map(({ label, icon, href }) => {
-              const active = pathname === href;
+              const active = pathname.startsWith('/tabs/settings');
               return (
                 <Pressable
                   key={href}
@@ -151,17 +182,16 @@ export default function ModulSidebar({ visible, onClose }: Props) {
 
             {/* Cerrar sesión */}
             <Pressable
-              onPress={() => {
-                onClose();
-                router.replace('/');
-              }}
+              onPress={handleSignOut}
               accessibilityRole="button"
-              accessibilityLabel="Cerrar sesión"
+              accessibilityLabel={strings.sidebar.signOut}
               style={{ marginTop: 'auto' }}
             >
               <ModulView row alignCenter gap12 p12>
                 <ModulIcon icon={LogoutIcon} color={colors.danger} />
-                <ModulText style={{ color: colors.danger }}>Cerrar sesión</ModulText>
+                <ModulText style={{ color: colors.danger }}>
+                  {strings.sidebar.signOut}
+                </ModulText>
               </ModulView>
             </Pressable>
           </ModulView>
@@ -174,7 +204,8 @@ export default function ModulSidebar({ visible, onClose }: Props) {
           <Pressable
             style={{ flex: 1 }}
             onPress={onClose}
-            accessibilityLabel="Cerrar menú"
+            accessibilityRole="button"
+            accessibilityLabel={strings.sidebar.close}
           />
         </Animated.View>
       </ModulView>

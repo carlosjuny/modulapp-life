@@ -3,6 +3,7 @@ import { Stack, type ErrorBoundaryProps } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import ErrorFallback from '../components/organisms/ErrorFallback';
+import { AuthProvider } from '../context/AuthContext';
 import { ThemeProvider } from '../context/ThemeContext';
 import { initMonitoring, reportError, wrapWithMonitoring } from '../services/monitoring';
 
@@ -20,7 +21,9 @@ function RootLayout() {
   return (
     <SafeAreaProvider>
       <ThemeProvider>
-        <Stack screenOptions={{ headerShown: false }} />
+        <AuthProvider>
+          <Stack screenOptions={{ headerShown: false }} />
+        </AuthProvider>
       </ThemeProvider>
     </SafeAreaProvider>
   );

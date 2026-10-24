@@ -23,6 +23,9 @@ export default function TabsLayout() {
         <Tabs.Screen name="mailbox" options={{ title: 'Buzon' }} />
         <Tabs.Screen name="planer" options={{ title: 'Agenda' }} />
         <Tabs.Screen name="moduls" options={{ title: 'Módulos' }} />
+        <Tabs.Screen name="profile/profile" options={{ title: 'Perfil' }} />
+        <Tabs.Screen name="settings/account" options={{ title: 'Ajustes de la cuenta' }} />
+        <Tabs.Screen name="settings/settings" options={{ title: 'Configuración' }} />
         <Tabs.Screen name="diagnostico" options={{ title: 'Diagnóstico', href: null }} />
       </Tabs>
       <ModulFab onPress={() => {}} />

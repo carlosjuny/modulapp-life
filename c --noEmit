@@ -1,0 +1,23 @@
+[1mdiff --git a/life-frontend/src/app/_layout.tsx b/life-frontend/src/app/_layout.tsx[m
+[1mindex 26d2ed7..526955b 100644[m
+[1m--- a/life-frontend/src/app/_layout.tsx[m
+[1m+++ b/life-frontend/src/app/_layout.tsx[m
+[36m@@ -3,6 +3,7 @@[m [mimport { Stack, type ErrorBoundaryProps } from 'expo-router';[m
+ import { SafeAreaProvider } from 'react-native-safe-area-context';[m
+ [m
+ import ErrorFallback from '../components/organisms/ErrorFallback';[m
+[32m+[m[32mimport { AuthProvider } from '../context/AuthContext';[m
+ import { ThemeProvider } from '../context/ThemeContext';[m
+ import { initMonitoring, reportError, wrapWithMonitoring } from '../services/monitoring';[m
+ [m
+[36m@@ -20,7 +21,9 @@[m [mfunction RootLayout() {[m
+   return ([m
+     <SafeAreaProvider>[m
+       <ThemeProvider>[m
+[31m-        <Stack screenOptions={{ headerShown: false }} />[m
+[32m+[m[32m        <AuthProvider>[m
+[32m+[m[32m          <Stack screenOptions={{ headerShown: false }} />[m
+[32m+[m[32m        </AuthProvider>[m
+       </ThemeProvider>[m
+     </SafeAreaProvider>[m
+   );[m
