@@ -10,5 +10,7 @@ public class User : AuditableEntity
 
     public string? AvatarUrl { get; set; }
 
+    public Guid? ActiveHouseholdId { get; set; }
+
     public ICollection<Membership> Memberships { get; set; } = [];
 }

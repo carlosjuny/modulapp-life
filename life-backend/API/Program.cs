@@ -3,6 +3,7 @@ using API.Endpoints;
 using API.Middleware;
 using Application.Auth;
 using Application.EventsLog;
+using Application.Households;
 using Infrastructure;
 using Infrastructure.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -68,6 +69,7 @@ builder.Services.AddPersistence(connectionString);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<EventLogService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<HouseholdService>();
 
 var jwt = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>() ?? new JwtOptions();
 if (Encoding.UTF8.GetByteCount(jwt.SigningKey) < JwtOptions.MinSigningKeyLength

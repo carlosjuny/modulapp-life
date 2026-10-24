@@ -12,6 +12,7 @@ public static class DependencyInjection
 
         services.AddScoped<IEventLogStore, EventLogStore>();
         services.AddScoped<IAuthStore, AuthStore>();
+        services.AddScoped<IHouseholdStore, HouseholdStore>();
 
         return services;
     }

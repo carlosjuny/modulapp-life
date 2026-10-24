@@ -11,7 +11,10 @@ public static class ApiEndpoints
         app.MapGroup("/auth").WithTags("Auth").MapAuthEndpoints();
         app.MapGroup("/me").WithTags("Me");
 
-        var households = app.MapGroup("/households").WithTags("Households");
+        app.MapGroup("/invites").WithTags("Households").RequireAuthorization().MapInvitationEndpoints();
+
+        var households = app.MapGroup("/households").WithTags("Households").RequireAuthorization();
+        households.MapHouseholdEndpoints();
         households.MapGet("/{householdId:guid}/events-log", GetEventsLogAsync);
 
         return app;
