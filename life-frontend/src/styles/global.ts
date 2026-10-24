@@ -143,3 +143,36 @@ export const createGlobalTextStyles = (colors: ThemeColors) =>
     fontBold: { fontWeight: '700' },
     textCenter: { textAlign: 'center' },
   });
+
+
+export const createModulLayoutStyles = (
+  colors: ThemeColors,
+  topInset: number,
+  margins: boolean,
+) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: colors.background,
+      paddingTop: topInset,
+    },
+    keyboardAvoiding: {
+      flex: 1,
+    },
+    screenContent: {
+      flex: 1,
+      width: '100%',
+      maxWidth: layout.maxContentWidth,
+      alignSelf: 'center',
+      paddingVertical: layout.screenPaddingY,
+      paddingHorizontal: margins ? layout.screenMargin : 0,
+    },
+    scrollContent: {
+      width: '100%',
+      maxWidth: layout.maxContentWidth,
+      alignSelf: 'center',
+      paddingVertical: layout.screenPaddingY,
+      paddingHorizontal: margins ? layout.screenMargin : 0,
+      flexGrow: 1,
+    },
+  });

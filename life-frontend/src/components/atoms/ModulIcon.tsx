@@ -18,7 +18,7 @@ export default function AppIcon({
 
   return (
     <Icon
-      size={22}
+      size={26}
       color={color ?? colors.text}
     />
   );

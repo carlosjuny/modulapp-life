@@ -14,7 +14,7 @@ import ModulView from '../atoms/ModulView';
 import ModulIcon from '../atoms/ModulIcon';
 import ModulText from '../atoms/ModulText';
 
-type ModulHeaderProps = {
+export type ModulHeaderProps = {
   title: string;
   subtitle?: string;
 
@@ -79,11 +79,9 @@ export default function ModulHeader({
     <ModulView
       row
       alignCenter
-      p16
+      px12
+      py12
       bg
-      style={{
-        borderBottomColor: colors.border,
-      }}
     >
       {/* Lado izquierdo: conserva siempre el espacio */}
       <View style={{ width: 44, flexShrink: 0 }}>
@@ -118,12 +116,7 @@ export default function ModulHeader({
           justifyContent: 'center',
         }}
       >
-        <ModulText
-          numberOfLines={1}
-          style={[
-            globalTextStyles.textPrimary,
-          ]}
-        >
+        <ModulText variant="headerTitle">
           {title}
         </ModulText>
 

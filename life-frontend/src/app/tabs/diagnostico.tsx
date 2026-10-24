@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable } from 'react-native';
+import { router } from 'expo-router';
 
 import ModulLayout from '../../components/atoms/ModulLayout';
 import ModulView from '../../components/atoms/ModulView';
 import ModulText from '../../components/atoms/ModulText';
-import ModulHeader from '../../components/organisms/ModulHeader';
 import { useTheme } from '../../context/ThemeContext';
 import { ApiError, getHealth } from '../../services/api';
 
@@ -27,6 +27,7 @@ export default function Diagnostico() {
       })
       .catch((error) => {
         if (!active) return;
+
         setState({
           status: 'error',
           message:
@@ -49,26 +50,36 @@ export default function Diagnostico() {
   const healthy = state.status === 'ok' && state.value === 'Healthy';
 
   return (
-    <ModulLayout>
-      <ModulHeader title="Diagnóstico" leftAction="back" showNotifications={false} />
+    <ModulLayout
+      header={{
+        title: 'Diagnóstico',
+        leftAction: 'back',
+        showNotifications: false,
+        onBackPress: () => router.back(),
+      }}
+    >
       <ModulView p16>
-        <ModulText variant="sectionTitle">Estado de la API</ModulText>
+        <ModulText variant="sectionTitle">
+          Estado de la API
+        </ModulText>
 
         {state.status === 'loading' && (
-          <ActivityIndicator color={colors.primary} style={{ marginTop: 16 }} />
+          <ActivityIndicator color={colors.primary} />
         )}
 
         {state.status === 'ok' && (
           <ModulText
             variant="screenTitle"
-            style={{ color: healthy ? colors.success : colors.danger, marginTop: 16 }}
+            style={{
+              color: healthy ? colors.success : colors.danger,
+            }}
           >
             {healthy ? 'Healthy' : 'Unhealthy'}
           </ModulText>
         )}
 
         {state.status === 'error' && (
-          <ModulText style={{ color: colors.danger, marginTop: 16 }}>
+          <ModulText style={{ color: colors.danger }}>
             {state.message}
           </ModulText>
         )}
@@ -77,9 +88,8 @@ export default function Diagnostico() {
           onPress={retry}
           accessibilityRole="button"
           accessibilityLabel="Reintentar"
-          style={{ marginTop: 24 }}
         >
-          <ModulText variant="button" style={{ color: colors.primary }}>
+          <ModulText variant="button">
             Reintentar
           </ModulText>
         </Pressable>

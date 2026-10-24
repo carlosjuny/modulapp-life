@@ -7,6 +7,7 @@ export const MAX_FONT_SIZE_MULTIPLIER = 1.5;
 export type TextVariant =
   | 'screenTitle'
   | 'sectionTitle'
+  | 'headerTitle'
   | 'body'
   | 'bodySecondary'
   | 'label'
@@ -22,4 +23,5 @@ export const typography: Record<TextVariant, VariantStyle> = {
   bodySecondary: { fontSize: 14, lineHeight: 21, fontWeight: '400' },
   label: { fontSize: 14, lineHeight: 21, fontWeight: '500' },
   button: { fontSize: 16, lineHeight: 24, fontWeight: '600' },
+  headerTitle: { fontSize: 22, fontWeight: '700', lineHeight: 32 },
 };
