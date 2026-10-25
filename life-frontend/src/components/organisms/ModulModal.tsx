@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Pressable } from 'react-native';
+import { KeyboardAvoidingView, Modal, Platform, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CloseIcon } from '@solar-icons/react-native/linear';
 
@@ -36,6 +36,10 @@ export default function ModulModal({
       animationType={isBottom ? 'slide' : 'fade'}
       onRequestClose={onClose}
     >
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={globalStyles.flex1}
+      >
       <ModulView
         flex1
         justifyCenter={isCenter}
@@ -84,6 +88,7 @@ export default function ModulModal({
           {children}
         </ModulView>
       </ModulView>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }

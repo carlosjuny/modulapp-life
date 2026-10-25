@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { Tabs } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 
 import ModulFab from '../../components/atoms/ModulFab';
 import ModulMenu from '../../components/organisms/ModulMenu';
@@ -7,6 +7,7 @@ import { useTheme } from '../../context/ThemeContext';
 
 export default function TabsLayout() {
   const { colors } = useTheme();
+  const router = useRouter();
 
   return (
     <View style={{ flex: 1 }}>
@@ -27,8 +28,17 @@ export default function TabsLayout() {
         <Tabs.Screen name="settings/account" options={{ title: 'Ajustes de la cuenta' }} />
         <Tabs.Screen name="settings/settings" options={{ title: 'Configuración' }} />
         <Tabs.Screen name="diagnostico" options={{ title: 'Diagnóstico', href: null }} />
+        <Tabs.Screen name="mailbox/tasks/index" options={{ title: 'Tareas', href: null }} />
+        <Tabs.Screen name="mailbox/tasks/detail" options={{ title: 'Detalle de tarea', href: null }} />
       </Tabs>
-      <ModulFab onPress={() => {}} />
+      <ModulFab
+        onPress={() =>
+          router.navigate({
+            pathname: '/tabs/mailbox',
+            params: { quick: String(Date.now()) },
+          } as never)
+        }
+      />
     </View>
   );
 }
